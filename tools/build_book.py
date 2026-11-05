@@ -72,22 +72,28 @@ r['ROSE_MEDAL']=r['ROSE'].replace('<svg ','<svg class="medal" aria-hidden="true"
 X=lambda tt: 22+(tt-2015.75)*36.2
 NOW=2026+10/12
 ch=[]
-ch.append(f'<line class="nowline" x1="{f(X(NOW))}" y1="14" x2="{f(X(NOW))}" y2="222" />')
+ch.append(f'<line class="nowline" x1="{f(X(NOW))}" y1="14" x2="{f(X(NOW))}" y2="270" />')
 ch.append(f'<text class="now-t" x="{f(X(NOW))}" y="9" text-anchor="end">NOW · NOV 2026</text>')
 g0=X(2015+11/12); ch.append(f'<path class="edu" d="M{f(g0)},26 l6,6 l-6,6 l-6,-6 Z" />')
 ch.append(f'<text x="{f(g0+11)}" y="37">Binghamton, B.S. <tspan class="dur" dx="4">Dec 2015</tspan></text>')
-rows=[(2016,2021+9/12,82,'Avero','Product Owner &amp; Data Analyst','5 yr 9 mo',''),
-      (2021+9/12,2023+4/12,138,'Jefferies','Data Analyst','1 yr 7 mo',''),
-      (2023+4/12,NOW,194,'Jefferies','Product Strategist, Assoc. → VP','3 yr 6 mo','now')]
-for a_,b_,y,co,role,dur,cls in rows:
-    ch.append(f'<rect class="bar {cls}" x="{f(X(a_))}" y="{y-3.5}" width="{f(X(b_)-X(a_))}" height="7" />')
+JS,DA=2021+9/12,2023+4/12
+rows=[(2016,2021+9/12,100,'Avero','Product Owner &amp; Data Analyst','5 yr 9 mo','',8,False),
+      (JS,NOW,168,'Jefferies','Oct 2021 to today','5 yr 1 mo','',8,False),
+      (JS,DA,206,'Data Analyst','','1 yr 7 mo','sub',4,True),
+      (DA,NOW,240,'Product Strategist','Associate, then VP','3 yr 6 mo','now',4,True)]
+for a_,b_,y,co,role,dur,cls,h,sub in rows:
+    ch.append(f'<rect class="bar {cls}" x="{f(X(a_))}" y="{y-h/2}" width="{f(X(b_)-X(a_))}" height="{h}" />')
     l1=f'{co} <tspan class="dur" dx="4">{dur}</tspan>'
-    if X(a_)+250>440: ch.append(f'<text x="{f(X(b_))}" y="{y-26}" text-anchor="end">{l1}</text><text class="dur" x="{f(X(b_))}" y="{y-11}" text-anchor="end">{role}</text>')
-    else: ch.append(f'<text x="{f(X(a_))}" y="{y-26}">{l1}</text><text class="dur" x="{f(X(a_))}" y="{y-11}">{role}</text>')
-ch.append(f'<line class="axis" x1="{f(X(2016))}" y1="234" x2="{f(X(NOW))}" y2="234" />')
+    if sub:
+        ch.append(f'<text class="subl" x="{f(X(JS)-10)}" y="{y+5}" text-anchor="end">{l1}</text>')
+        if role: ch.append(f'<text class="dur" x="{f(X(JS)-10)}" y="{y+21}" text-anchor="end">{role}</text>')
+    else:
+        ch.append(f'<text x="{f(X(a_))}" y="{y-24}">{l1}</text><text class="dur" x="{f(X(a_))}" y="{y-9}">{role}</text>')
+ch.append(f'<path class="bracket" d="M{f(X(JS))},172 V242" />')
+ch.append(f'<line class="axis" x1="{f(X(2016))}" y1="282" x2="{f(X(NOW))}" y2="282" />')
 for yr in range(2016,2027):
-    ch.append(f'<line class="tk" x1="{f(X(yr))}" y1="234" x2="{f(X(yr))}" y2="238" />')
-    if yr%2==0: ch.append(f'<text class="yr" x="{f(X(yr))}" y="254" text-anchor="middle">{yr}</text>')
+    ch.append(f'<line class="tk" x1="{f(X(yr))}" y1="282" x2="{f(X(yr))}" y2="286" />')
+    if yr%2==0: ch.append(f'<text class="yr" x="{f(X(yr))}" y="302" text-anchor="middle">{yr}</text>')
 r['CHART']=''.join(ch)
 for k,v in r.items(): t=t.replace(f'__{k}__',v)
 assert '__' not in t.replace('__agentproxy','') or print([l for l in t.split('\n') if '__' in l][:3])

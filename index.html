@@ -133,7 +133,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--oxblood); outli
 .page .drop::first-letter { font-family: var(--black); float: left; font-size: 3.5em; line-height: .8; padding: .1em .1em 0 0; color: var(--oxblood); }
 .page .meta { font-family: var(--caps); font-size: .82em; color: var(--ink-soft); text-align: left; }
 .ref { font-variant-numeric: lining-nums; font-size: .65em; vertical-align: super; line-height: 0; color: var(--oxblood); }
-.notes { margin-top: auto; padding-top: .5em; font-size: .78em; line-height: 1.35; color: var(--ink-soft); }
+.pbody > .content { margin-block: auto; }
+.notes { margin-top: 0; padding-top: .5em; font-size: .78em; line-height: 1.35; color: var(--ink-soft); }
 .notes::before { content: ""; display: block; width: 30%; border-top: 1px solid var(--ink-soft); margin-bottom: .5em; }
 .notes p { text-align: left; margin-bottom: .35em; }
 .notes .n { color: var(--oxblood); font-variant-numeric: lining-nums; margin-right: .3em; }
@@ -222,7 +223,8 @@ strong { font-weight: 600; }
 .chart .yr { font-size: 15px; fill: var(--ink-soft); font-variant-numeric: lining-nums tabular-nums; }
 .chart .dur { font-size: 15.5px; font-style: italic; fill: var(--ink-soft); }
 .chart .axis, .chart .tk { stroke: var(--ink); stroke-width: .8; }
-.chart .bar { fill: var(--ink); } .chart .bar.now { fill: var(--oxblood); } .chart .edu { fill: var(--green); }
+.chart .bar { fill: var(--ink); } .chart .bar.sub { fill: var(--ink-soft); } .chart .bar.now { fill: var(--oxblood); }
+.chart .subl { font-size: 15.5px; } .chart .bracket { fill: none; stroke: var(--ink-soft); stroke-width: .8; stroke-dasharray: 2 2; } .chart .edu { fill: var(--green); }
 .chart .nowline { stroke: var(--oxblood); stroke-width: .8; }
 .chart .now-t { fill: var(--oxblood); font-family: var(--caps); font-size: 14px; letter-spacing: .1em; }
 .figcap { font-size: .82em; color: var(--ink-soft); line-height: 1.35; }
@@ -249,6 +251,9 @@ table.figs td.v.r { color: var(--oxblood); }
 .finis .word { font-family: var(--black); font-size: 3em; color: var(--oxblood); margin: 0; text-align: center; }
 .finis svg { width: 3em; height: 3em; }
 .finis .colophon { font-size: .82em; color: var(--ink-soft); max-width: 22em; text-align: center; font-style: italic; }
+
+/* drawn icons (no font glyphs) */
+.ic { width: .8em; height: .8em; display: inline-block; vertical-align: -.05em; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
 /* controls */
 .controls {
@@ -278,7 +283,7 @@ table.figs td.v.r { color: var(--oxblood); }
 <div class="timber" aria-hidden="true"></div>
 <div class="bar">
   <span>Julius Gonzalez</span>
-  <span><button type="button" data-go="2">Contents</button> · <a href="https://www.atriums.ai/" target="_blank" rel="noopener" style="text-decoration:none">Atriums AI ↗</a></span>
+  <span><button type="button" data-go="2">Contents</button> · <a href="https://www.atriums.ai/" target="_blank" rel="noopener" style="text-decoration:none">Atriums AI <svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3.5 8.5 8.5 3.5M4.5 3.5h4v4" /></svg></a></span>
 </div>
 
 <main class="stage" id="stage">
@@ -286,9 +291,9 @@ table.figs td.v.r { color: var(--oxblood); }
 </main>
 
 <nav class="controls" aria-label="Turn pages">
-  <button type="button" id="prev" aria-label="Previous page">‹ Back</button>
+  <button type="button" id="prev" aria-label="Previous page"><svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M7.5 2.5 4 6l3.5 3.5" /></svg> Back</button>
   <span id="where">Cover</span>
-  <button type="button" id="next" aria-label="Next page">Turn ›</button>
+  <button type="button" id="next" aria-label="Next page">Turn <svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4.5 2.5 8 6l-3.5 3.5" /></svg></button>
 </nav>
 
 <div id="pages">
@@ -302,7 +307,7 @@ table.figs td.v.r { color: var(--oxblood); }
       </div>
       <svg class="medal" aria-hidden="true" viewBox="-15 -15 30 30"><path class="s" d="M1.6,-5.8 L8.5,-11.7 L5.0,-3.4 Z" /><path class="s" d="M6.0,-0.2 L13.8,4.5 L4.7,3.7 Z" /><path class="s" d="M2.1,5.6 L0.0,14.5 L-2.1,5.6 Z" /><path class="s" d="M-4.7,3.7 L-13.8,4.5 L-6.0,-0.2 Z" /><path class="s" d="M-5.0,-3.4 L-8.5,-11.7 L-1.6,-5.8 Z" /><circle class="p1" cx="0.0" cy="-7.2" r="5.8" /><circle class="p1" cx="6.8" cy="-2.2" r="5.8" /><circle class="p1" cx="4.2" cy="5.8" r="5.8" /><circle class="p1" cx="-4.2" cy="5.8" r="5.8" /><circle class="p1" cx="-6.8" cy="-2.2" r="5.8" /><circle class="p2" cx="2.1" cy="-2.9" r="3.4" /><circle class="p2" cx="3.4" cy="1.1" r="3.4" /><circle class="p2" cx="0.0" cy="3.6" r="3.4" /><circle class="p2" cx="-3.4" cy="1.1" r="3.4" /><circle class="p2" cx="-2.1" cy="-2.9" r="3.4" /><circle class="c" r="2.4" /></svg>
       <p class="sub">Born in the United States, raised in the Dominican Republic, built in New York.</p>
-      <p class="hint">Turn the page ›</p>
+      <p class="hint">Turn the page <svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4.5 2.5 8 6l-3.5 3.5" /></svg></p>
     </div>
   </section>
 
@@ -384,7 +389,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 3 · Part I -->
-  <section class="page verso" data-run="Hispaniola">
+  <section class="page verso text" data-run="Hispaniola">
     <h2><span class="part-no">Part I</span>Eleven years in the Dominican Republic</h2>
     <p class="drop">I was born in the United States and spent eleven years growing up in the Dominican Republic.<span class="ref">1</span> That's where I learned to be resourceful. When you don't have everything handed to you, you get creative with what you have.</p>
     <p>Growing up between two languages and two cultures taught me to adapt quickly, listen closely, and feel at home somewhere new. I still lean on that every day.</p>
@@ -392,28 +397,28 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 4 · Part II -->
-  <section class="page" data-run="New York">
+  <section class="page text" data-run="New York">
     <h2><span class="part-no">Part II</span>New York, which doesn't wait for anyone</h2>
     <p class="drop">Moving to New York City was its own education.<span class="ref">2</span> The pace and the ambition rewire you. New York taught me that if you want something, you go and get it. You don't wait for permission or a perfect plan.</p>
     <div class="notes"><p><span class="n">2</span>About 1,550 miles north of where I grew up, measured in a straight line.</p></div>
   </section>
 
   <!-- 5 · Part III -->
-  <section class="page verso" data-run="The Long Way Round">
+  <section class="page verso text" data-run="The Long Way Round">
     <h2><span class="part-no">Part III</span>The non-traditional path</h2>
     <p class="drop">My route to a four-year degree started at community college. Some people see that as a detour. For me it was a launchpad. I put my head down, excelled, and earned my transfer to Binghamton University.<span class="ref">3</span></p>
     <div class="notes"><p><span class="n">3</span>Where you start doesn't decide where you finish.</p></div>
   </section>
 
   <!-- 6 · Part IV -->
-  <section class="page" data-run="Binghamton">
+  <section class="page text" data-run="Binghamton">
     <h2><span class="part-no">Part IV</span>Binghamton, where I fell for startups</h2>
     <p class="drop">I studied Financial Economics, but entrepreneurship is what grabbed me. A small group of people with an idea and enough grit could build something from nothing and put it in people's hands. I went to every talk I could find and started treating problems as things to build.</p>
     <p class="meta">Binghamton University, State University of New York · B.S. Financial Economics · December 2015</p>
   </section>
 
   <!-- 7 · Part V -->
-  <section class="page verso" data-run="The Magic Book">
+  <section class="page verso text" data-run="The Magic Book">
     <h2><span class="part-no">Part V</span>The magic book</h2>
     <p class="drop">My first real startup was an augmented reality magic book: a printed book that came alive when you pointed a phone at it. Characters stepped off the page, and readers could explore a story instead of only reading it.</p>
     <p>Partway through the build, my technical cofounder quit. Nobody was left to build it, so I decided to become someone who could.</p>
@@ -431,7 +436,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 9 · Part VI -->
-  <section class="page verso" data-run="Shipping">
+  <section class="page verso text" data-run="Shipping">
     <h2><span class="part-no">Part VI</span>From learning to code to shipping</h2>
     <p class="drop">Teaching myself turned into a habit of building. I've designed and built mobile apps and websites from the ground up, frontend and backend, and published iOS apps to the App Store.<span class="ref">4</span></p>
     <p><span class="sc">Tools of the trade:</span> Python, JavaScript, React, iOS, SQL, REST APIs, Snowflake, Power BI and large language models.</p>
@@ -439,7 +444,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 10 · Part VII a -->
-  <section class="page" data-run="Finance &amp; Data">
+  <section class="page text" data-run="Finance &amp; Data">
     <h2><span class="part-no">Part VII</span>A builder inside finance and data</h2>
     <p class="drop">For ten years I've worked where product, data and technology meet, turning messy problems into products people use.</p>
     <p>At <strong>Jefferies</strong>, as Product Strategist in Investment Banking, now Vice President, I led data scientists, engineers, delivery and business leaders to launch the firm's first LLM-powered application.<span class="ref">5</span> I set strategy for a portfolio of fintech and banking software and use SQL-driven analysis to decide what to build next.</p>
@@ -447,7 +452,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 11 · Part VII b -->
-  <section class="page verso" data-run="Finance &amp; Data">
+  <section class="page verso text" data-run="Finance &amp; Data">
     <p>At <strong>Avero</strong>, as Product Owner and Data Analyst, I owned the sales, onboarding and billing platform end to end. I published nationwide reporting on the restaurant industry's recovery after COVID and moved the company's data into Snowflake and Power BI.</p>
     <table class="figs">
       <caption>Table 1. The work, in numbers</caption>
@@ -463,17 +468,17 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 12 · Figure 2 -->
-  <section class="page" data-run="Finance &amp; Data">
+  <section class="page text" data-run="Finance &amp; Data">
     <p class="figcap" style="margin-top:.5em"><span class="sc">Figure 2.</span> The decade to scale.</p>
-    <svg class="chart" viewBox="0 -4 440 268" role="img" aria-labelledby="chart-t">
+    <svg class="chart" viewBox="0 -4 440 312" role="img" aria-labelledby="chart-t">
       <title id="chart-t">Career timeline from December 2015 to November 2026</title>
-      <line class="nowline" x1="423.2" y1="14" x2="423.2" y2="222" /><text class="now-t" x="423.2" y="9" text-anchor="end">NOW · NOV 2026</text><path class="edu" d="M28.0,26 l6,6 l-6,6 l-6,-6 Z" /><text x="39.0" y="37">Binghamton, B.S. <tspan class="dur" dx="4">Dec 2015</tspan></text><rect class="bar " x="31.1" y="78.5" width="208.2" height="7" /><text x="31.1" y="56">Avero <tspan class="dur" dx="4">5 yr 9 mo</tspan></text><text class="dur" x="31.1" y="71">Product Owner &amp; Data Analyst</text><rect class="bar " x="239.2" y="134.5" width="57.3" height="7" /><text x="296.5" y="112" text-anchor="end">Jefferies <tspan class="dur" dx="4">1 yr 7 mo</tspan></text><text class="dur" x="296.5" y="127" text-anchor="end">Data Analyst</text><rect class="bar now" x="296.5" y="190.5" width="126.7" height="7" /><text x="423.2" y="168" text-anchor="end">Jefferies <tspan class="dur" dx="4">3 yr 6 mo</tspan></text><text class="dur" x="423.2" y="183" text-anchor="end">Product Strategist, Assoc. → VP</text><line class="axis" x1="31.1" y1="234" x2="423.2" y2="234" /><line class="tk" x1="31.1" y1="234" x2="31.1" y2="238" /><text class="yr" x="31.1" y="254" text-anchor="middle">2016</text><line class="tk" x1="67.2" y1="234" x2="67.2" y2="238" /><line class="tk" x1="103.5" y1="234" x2="103.5" y2="238" /><text class="yr" x="103.5" y="254" text-anchor="middle">2018</text><line class="tk" x1="139.7" y1="234" x2="139.7" y2="238" /><line class="tk" x1="175.9" y1="234" x2="175.9" y2="238" /><text class="yr" x="175.9" y="254" text-anchor="middle">2020</text><line class="tk" x1="212.1" y1="234" x2="212.1" y2="238" /><line class="tk" x1="248.3" y1="234" x2="248.3" y2="238" /><text class="yr" x="248.3" y="254" text-anchor="middle">2022</text><line class="tk" x1="284.5" y1="234" x2="284.5" y2="238" /><line class="tk" x1="320.7" y1="234" x2="320.7" y2="238" /><text class="yr" x="320.7" y="254" text-anchor="middle">2024</text><line class="tk" x1="356.9" y1="234" x2="356.9" y2="238" /><line class="tk" x1="393.1" y1="234" x2="393.1" y2="238" /><text class="yr" x="393.1" y="254" text-anchor="middle">2026</text>
+      <line class="nowline" x1="423.2" y1="14" x2="423.2" y2="270" /><text class="now-t" x="423.2" y="9" text-anchor="end">NOW · NOV 2026</text><path class="edu" d="M28.0,26 l6,6 l-6,6 l-6,-6 Z" /><text x="39.0" y="37">Binghamton, B.S. <tspan class="dur" dx="4">Dec 2015</tspan></text><rect class="bar " x="31.1" y="96.0" width="208.2" height="8" /><text x="31.1" y="76">Avero <tspan class="dur" dx="4">5 yr 9 mo</tspan></text><text class="dur" x="31.1" y="91">Product Owner &amp; Data Analyst</text><rect class="bar " x="239.2" y="164.0" width="184.0" height="8" /><text x="239.2" y="144">Jefferies <tspan class="dur" dx="4">5 yr 1 mo</tspan></text><text class="dur" x="239.2" y="159">Oct 2021 to today</text><rect class="bar sub" x="239.2" y="204.0" width="57.3" height="4" /><text class="subl" x="229.2" y="211" text-anchor="end">Data Analyst <tspan class="dur" dx="4">1 yr 7 mo</tspan></text><rect class="bar now" x="296.5" y="238.0" width="126.7" height="4" /><text class="subl" x="229.2" y="245" text-anchor="end">Product Strategist <tspan class="dur" dx="4">3 yr 6 mo</tspan></text><text class="dur" x="229.2" y="261" text-anchor="end">Associate, then VP</text><path class="bracket" d="M239.2,172 V242" /><line class="axis" x1="31.1" y1="282" x2="423.2" y2="282" /><line class="tk" x1="31.1" y1="282" x2="31.1" y2="286" /><text class="yr" x="31.1" y="302" text-anchor="middle">2016</text><line class="tk" x1="67.2" y1="282" x2="67.2" y2="286" /><line class="tk" x1="103.5" y1="282" x2="103.5" y2="286" /><text class="yr" x="103.5" y="302" text-anchor="middle">2018</text><line class="tk" x1="139.7" y1="282" x2="139.7" y2="286" /><line class="tk" x1="175.9" y1="282" x2="175.9" y2="286" /><text class="yr" x="175.9" y="302" text-anchor="middle">2020</text><line class="tk" x1="212.1" y1="282" x2="212.1" y2="286" /><line class="tk" x1="248.3" y1="282" x2="248.3" y2="286" /><text class="yr" x="248.3" y="302" text-anchor="middle">2022</text><line class="tk" x1="284.5" y1="282" x2="284.5" y2="286" /><line class="tk" x1="320.7" y1="282" x2="320.7" y2="286" /><text class="yr" x="320.7" y="302" text-anchor="middle">2024</text><line class="tk" x1="356.9" y1="282" x2="356.9" y2="286" /><line class="tk" x1="393.1" y1="282" x2="393.1" y2="286" /><text class="yr" x="393.1" y="302" text-anchor="middle">2026</text>
     </svg>
-    <p class="figcap">Each bar runs from its start month to its end month on one scale. Durations are in italic beside each role. The red bar is the current role and the green mark is graduation.</p>
+    <p class="figcap">Each bar runs from its start month to its end month on one scale. The Jefferies bar is the whole tenure; the two thinner bars beneath it split it into roles. The red bar is the current role and the green mark is graduation.</p>
   </section>
 
   <!-- 13 · Part VIII -->
-  <section class="page verso" data-run="Atriums AI">
+  <section class="page verso text" data-run="Atriums AI">
     <h2><span class="part-no">Part VIII</span>Atriums AI</h2>
     <p class="drop">Outside my day job, I'm building again. <a href="https://www.atriums.ai/" target="_blank" rel="noopener"><strong>Atriums AI</strong></a><span class="ref">6</span> is a live room where a team talks through an idea and AI coding agents build it while they talk. The group compares the versions side by side, votes, and pushes the winner to GitHub with a spec.</p>
     <p>It's the same pull I felt at Binghamton and the same stubbornness from the magic book, now with ten years of product experience behind it.</p>
@@ -484,7 +489,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 14 · values -->
-  <section class="page" data-run="What Carries Through">
+  <section class="page text" data-run="What Carries Through">
     <h2><span class="part-no">Epilogue</span>What carries through</h2>
     <div class="values">
       <div><h3>Learning</h3><p>From the DR to self-taught code to LLMs, I'm happiest as a beginner at something new.</p></div>
@@ -494,7 +499,7 @@ table.figs td.v.r { color: var(--oxblood); }
   </section>
 
   <!-- 15 · about + correspondence -->
-  <section class="page verso" data-run="About the Author">
+  <section class="page verso text" data-run="About the Author">
     <h2><span class="part-no">About the author</span>Julius Gonzalez</h2>
     <p class="drop">Julius Gonzalez is a product strategist and self-taught engineer in New York, and the founder of Atriums AI. He invests in early-stage founders, including <strong>BoldVoice</strong>. Away from the keyboard he skis, trains judo, plays basketball, scuba dives and follows Formula 1.</p>
     <p class="sc" style="color:var(--oxblood);margin:.4em 0 .2em">Correspondence</p>
@@ -503,7 +508,7 @@ table.figs td.v.r { color: var(--oxblood); }
       <span class="email" id="email">gonzalezjulius.c@gmail.com</span>
       <div class="btns">
         <button class="btn" id="copy-email" type="button">Copy email</button>
-        <a class="btn ghost" href="https://www.linkedin.com/in/juliuscgonzalez" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/juliuscgonzalez" target="_blank" rel="noopener">LinkedIn <svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3.5 8.5 8.5 3.5M4.5 3.5h4v4" /></svg></a>
       </div>
     </div>
   </section>
@@ -528,7 +533,7 @@ table.figs td.v.r { color: var(--oxblood); }
 </div>
 
 <div class="zoom" id="zoom" hidden>
-  <button type="button" id="zoom-close">Close ✕</button>
+  <button type="button" id="zoom-close">Close <svg class="ic" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 3l6 6M9 3 3 9" /></svg></button>
   <div id="zoom-body"></div>
 </div>
 
@@ -549,6 +554,11 @@ table.figs td.v.r { color: var(--oxblood); }
   pages.forEach((p, i) => {
     if (p.classList.contains("cover")) return;
     const inner = document.createElement("div"); inner.className = "pbody";
+    if (p.classList.contains("text")) {
+      const content = document.createElement("div"); content.className = "content";
+      [...p.childNodes].forEach((n) => { if (!(n.classList && n.classList.contains("notes"))) content.appendChild(n); });
+      inner.appendChild(content);
+    }
     while (p.firstChild) inner.appendChild(p.firstChild);
     const run = document.createElement("div"); run.className = "run"; run.textContent = p.dataset.run || "";
     const foot = document.createElement("div"); foot.className = "foot";
