@@ -1,308 +1,400 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Julius Gonzalez</title>
-  <meta name="description" content="Julius Gonzalez: born in the US, raised in the Dominican Republic, made in New York. Product builder, self-taught engineer, and lifelong learner." />
-  <meta property="og:title" content="Julius Gonzalez — The long way around" />
-  <meta property="og:description" content="Born in the US, raised in the Dominican Republic, made in New York. A story about building, learning, and caring about the work." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0f0e0c" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e8a33d'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-size='38' font-weight='700' fill='%230f0e0c'%3EJ%3C/text%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Julius Gonzalez</title>
+<meta name="claude:viewport-fit-sides" content="cover" />
+<meta name="description" content="Julius Gonzalez: born in the US, raised in the Dominican Republic, built in New York. Product strategist and self-taught engineer." />
+<meta property="og:title" content="Julius Gonzalez" />
+<meta property="og:description" content="Born in the US. Raised in the Dominican Republic. Built in New York." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+/* Layout: one journey line runs down the left edge, from the DR coordinates in the hero to New York and today. Each chapter is a stop on that line. The magic book breaks out as the one full-bleed moment. */
+:root {
+  --paper: #f4f6f5;        /* cool morning light, not cream */
+  --surface: #e6ecea;
+  --ink: #0f2033;          /* deep Atlantic navy */
+  --ink-soft: #4a5a68;
+  --rule: #c8d3d1;
+  --flamboyan: #d6402a;    /* the flamboyán tree's red-orange */
+  --sea: #0d6f78;          /* Caribbean shallows */
+  --on-sea: #f1fbfa;
+  --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --measure: 62ch;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0b1624; --surface: #13233a; --ink: #e6edf1; --ink-soft: #9aabb9;
+    --rule: #233650; --flamboyan: #ff6b4f; --sea: #0f5a63; --on-sea: #e9fbfa;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0b1624; --surface: #13233a; --ink: #e6edf1; --ink-soft: #9aabb9;
+  --rule: #233650; --flamboyan: #ff6b4f; --sea: #0f5a63; --on-sea: #e9fbfa;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1.125rem/1.7 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) { .wrap { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); } }
+a { color: inherit; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--flamboyan); outline-offset: 3px; border-radius: 2px; }
+p { margin: 0; max-width: var(--measure); color: var(--ink-soft); }
+strong { color: var(--ink); font-weight: 600; }
+h1, h2, h3 { font-family: var(--display); color: var(--ink); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.mono { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 14px; }
+.name { font-family: var(--display); font-weight: 800; font-size: 1.05rem; text-decoration: none; letter-spacing: -0.01em; }
+.top nav { display: flex; gap: 20px; font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.top nav a { text-decoration: none; color: var(--ink-soft); }
+.top nav a:hover { color: var(--flamboyan); }
+
+/* hero */
+.hero { padding-block: clamp(48px, 9vw, 112px) clamp(32px, 6vw, 72px); display: grid; gap: 28px; }
+.coords { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.coords .arrow { color: var(--flamboyan); }
+.hero h1 { font-size: clamp(2.6rem, 8.2vw, 6.4rem); font-weight: 800; line-height: .95; font-variation-settings: "opsz" 96; }
+.hero h1 span { display: block; }
+.hero h1 .lit { color: var(--flamboyan); }
+.hero h1 .soft { color: var(--ink-soft); font-weight: 600; }
+.lede { font-size: clamp(1.15rem, 1.8vw, 1.35rem); max-width: 48ch; color: var(--ink); }
+.route { width: 100%; max-width: 100%; height: auto; display: block; }
+.route path { fill: none; stroke: var(--flamboyan); stroke-width: 2; stroke-dasharray: 4 7; }
+.route .draw { stroke-dasharray: 900; stroke-dashoffset: 900; animation: draw 2.2s .3s ease-out forwards; stroke: var(--flamboyan); stroke-width: 2; }
+.route circle.a { fill: var(--sea); }
+.route circle.b { fill: var(--flamboyan); }
+.route text { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; fill: var(--ink-soft); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* journey */
+.journey { position: relative; padding-block: 24px 40px; }
+.journey::before { content: ""; position: absolute; top: 0; bottom: 0; left: 7px; border-left: 2px dashed var(--rule); }
+@media (min-width: 720px) { .journey::before { left: calc(max(40px, env(safe-area-inset-left, 0px)) + 7px); } }
+.stop { position: relative; padding: 0 0 clamp(56px, 8vw, 96px) 40px; display: grid; gap: 16px; }
+.stop::before { content: ""; position: absolute; left: 0; top: .35rem; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 3px solid var(--sea); }
+.stop.here::before { border-color: var(--flamboyan); background: var(--flamboyan); }
+.stop h2 { font-size: clamp(1.8rem, 4vw, 2.9rem); font-weight: 800; line-height: 1.05; max-width: 20ch; }
+.stop .cols { display: grid; gap: 16px 48px; }
+@media (min-width: 900px) { .stop .cols { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); align-items: start; } }
+.stop .text { display: grid; gap: 16px; min-width: 0; }
+.aside { font-family: var(--body); font-style: italic; font-size: 1.3rem; line-height: 1.4; color: var(--ink); border-top: 2px solid var(--flamboyan); padding-top: 14px; max-width: 26ch; }
+
+/* magic book: the one full-bleed moment */
+.book-band { background: var(--sea); color: var(--on-sea); margin-block: 0 clamp(56px, 8vw, 96px); }
+.book-band .wrap { display: grid; gap: 40px; padding-block: clamp(56px, 8vw, 104px); }
+@media (min-width: 900px) { .book-band .wrap { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; } }
+.book-band .mono, .book-band p { color: var(--on-sea); }
+.book-band p { opacity: .88; }
+.book-band h2 { color: var(--on-sea); font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1; }
+.book-band .turn { font-family: var(--display); font-weight: 600; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.25; opacity: 1; max-width: 26ch; }
+.book-band .turn em { font-style: normal; background: var(--flamboyan); color: #fff; padding: 0 .25em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.book-band .text { display: grid; gap: 18px; min-width: 0; }
+.book { position: relative; width: 100%; max-width: 420px; aspect-ratio: 5 / 4; justify-self: center; perspective: 900px; }
+.page { position: absolute; bottom: 8%; width: 47%; height: 58%; background: var(--on-sea); border-radius: 3px 3px 6px 6px; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .45); }
+.page.l { left: 3%; transform: rotateY(16deg); transform-origin: right; }
+.page.r { right: 3%; transform: rotateY(-16deg); transform-origin: left; }
+.page i { position: absolute; left: 14%; height: 3px; background: var(--sea); opacity: .25; border-radius: 2px; }
+.page i:nth-child(1) { top: 22%; right: 14%; } .page i:nth-child(2) { top: 36%; right: 30%; } .page i:nth-child(3) { top: 50%; right: 20%; } .page i:nth-child(4) { top: 64%; right: 40%; }
+.glyphs span { position: absolute; left: 50%; bottom: 46%; font-family: var(--mono); font-weight: 600; font-size: 1.05rem; color: var(--on-sea); white-space: nowrap; animation: rise 5s linear infinite; opacity: 0; }
+.glyphs span:nth-child(odd) { color: #ffd2c8; }
+.glyphs span:nth-child(1) { --x: -120px; animation-delay: 0s; }
+.glyphs span:nth-child(2) { --x: 70px; animation-delay: .7s; }
+.glyphs span:nth-child(3) { --x: -40px; animation-delay: 1.4s; }
+.glyphs span:nth-child(4) { --x: 130px; animation-delay: 2.1s; }
+.glyphs span:nth-child(5) { --x: -150px; animation-delay: 2.8s; }
+.glyphs span:nth-child(6) { --x: 20px; animation-delay: 3.5s; }
+.glyphs span:nth-child(7) { --x: 100px; animation-delay: 4.2s; }
+@keyframes rise {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(.7); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--x)), -210px) scale(1.1); }
+}
+
+/* stack */
+.stack { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.stack li { font-family: var(--mono); font-size: .78rem; padding: 4px 10px; border: 1px solid var(--rule); border-radius: 3px; color: var(--ink); }
+
+/* work */
+.roles { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.role { display: grid; gap: 6px 32px; padding-block: 22px; border-bottom: 1px solid var(--rule); }
+@media (min-width: 720px) { .role { grid-template-columns: 150px minmax(0, 1fr); } }
+.role h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.25; }
+.role h3 small { display: block; font-family: var(--body); font-weight: 400; font-size: 1rem; color: var(--ink-soft); letter-spacing: 0; }
+.role ul { margin: 10px 0 0; padding-left: 1.1em; color: var(--ink-soft); display: grid; gap: 6px; max-width: var(--measure); }
+.role .mono { padding-top: 5px; }
+.figs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 8px; }
+@media (min-width: 720px) { .figs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.figs div { display: grid; gap: 4px; align-content: start; }
+.figs b { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; color: var(--flamboyan); font-variant-numeric: tabular-nums; }
+.figs span { font-size: .95rem; color: var(--ink-soft); line-height: 1.4; }
+
+/* values */
+.values { display: grid; gap: 28px; }
+@media (min-width: 720px) { .values { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.values div { display: grid; gap: 8px; align-content: start; }
+.values h3 { font-size: 1.5rem; font-weight: 800; }
+.values p { font-size: 1rem; }
+
+/* contact */
+.contact { border-top: 1px solid var(--rule); }
+.contact .wrap { padding-block: clamp(56px, 9vw, 112px); display: grid; gap: 24px; }
+.contact h2 { font-size: clamp(2.4rem, 7vw, 5rem); font-weight: 800; line-height: .95; }
+.contact h2 span { color: var(--flamboyan); }
+.reach { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.email { font-family: var(--mono); font-size: 1rem; padding: 12px 16px; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); user-select: all; overflow-wrap: anywhere; }
+.btn { font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; padding: 13px 18px; border-radius: 4px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn:hover { background: var(--flamboyan); border-color: var(--flamboyan); color: #fff; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-block: 20px 28px; border-top: 1px solid var(--rule); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .route .draw { animation: none; stroke-dashoffset: 0; }
+  .glyphs span { animation: none; opacity: 1; transform: translate(calc(-50% + var(--x)), calc(var(--i, 1) * -26px)); }
+  .glyphs span:nth-child(1) { --i: 2; } .glyphs span:nth-child(2) { --i: 4; } .glyphs span:nth-child(3) { --i: 6; } .glyphs span:nth-child(4) { --i: 3; } .glyphs span:nth-child(5) { --i: 5; } .glyphs span:nth-child(6) { --i: 7; } .glyphs span:nth-child(7) { --i: 1; }
+}
+</style>
 </head>
 <body>
-  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
-  <header class="topbar">
-    <a href="#top" class="mark" aria-label="Back to top">JG</a>
-    <nav aria-label="Chapters">
-      <a href="#ch-1">Story</a>
+<header class="top">
+  <div class="wrap">
+    <a class="name" href="#top">Julius Gonzalez</a>
+    <nav aria-label="Sections">
+      <a href="#story">Story</a>
       <a href="#work">Work</a>
-      <a href="#values">What I care about</a>
-      <a href="#contact" class="pill">Say hello</a>
+      <a href="#contact">Contact</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <p class="eyebrow reveal">A story in seven chapters</p>
-      <h1 class="reveal">
-        Hi, I'm Julius.<br />
-        <span class="accent">I took the long way around</span><br />
-        and learned to build along the way.
-      </h1>
-      <p class="lede reveal">
-        Born in the US. Raised in the Dominican Republic. Made in New York.
-        Product strategist by day, self-taught engineer by night, and someone who
-        genuinely cares about the work I put into the world.
-      </p>
-      <a href="#ch-1" class="scroll-cue reveal" aria-label="Start the story">
-        <span>Start the story</span>
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 4v16m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </section>
+<main id="top">
+  <section class="wrap hero">
+    <div class="coords mono" aria-label="From the Dominican Republic to New York City">
+      <span>18.7°N 70.2°W · República Dominicana</span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span>40.7°N 74.0°W · New York City</span>
+    </div>
+    <h1>
+      <span class="soft">Born in the US.</span>
+      <span class="soft">Raised in the DR.</span>
+      <span class="lit">Built in New York.</span>
+    </h1>
+    <p class="lede">I'm Julius. I took a non-traditional path into tech, and I've been teaching myself to build ever since. This is how I got here.</p>
+    <svg class="route" viewBox="0 0 1000 120" role="img" aria-label="A flight path from the Dominican Republic to New York">
+      <path d="M20 100 C 260 100, 420 20, 980 20" />
+      <path class="draw" d="M20 100 C 260 100, 420 20, 980 20" />
+      <circle class="a" cx="20" cy="100" r="7" />
+      <circle class="b" cx="980" cy="20" r="7" />
+    </svg>
+  </section>
 
-    <!-- CHAPTER 1 -->
-    <section class="chapter" id="ch-1">
-      <div class="chapter-num reveal">01</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">Two homes</p>
-        <h2 class="reveal">Born in the US.<br />Raised for eleven years in the Dominican Republic.</h2>
-        <p class="reveal">
-          My story starts with two homes. I was born in the United States, but I spent
-          eleven years growing up in the Dominican Republic. It's where I learned that
-          resourcefulness isn't a skill you study — it's one you live. When you don't
-          have everything handed to you, you get creative with what you do have.
-        </p>
-        <p class="reveal">
-          Growing up between two cultures and two languages taught me to adapt fast,
-          listen closely, and feel at home in places that are new to me. That instinct
-          has followed me into every room I've walked into since.
-        </p>
-      </div>
-      <figure class="route reveal" aria-label="A route from the Dominican Republic to New York City">
-        <svg viewBox="0 0 320 220" role="img">
-          <title>From Santo Domingo to New York</title>
-          <path class="route-line" d="M60 180 C 110 120, 170 150, 250 40" />
-          <circle cx="60" cy="180" r="6" class="dot dot-start" />
-          <circle cx="250" cy="40" r="6" class="dot dot-end" />
-          <text x="60" y="205" text-anchor="middle">República Dominicana</text>
-          <text x="250" y="24" text-anchor="middle">New York City</text>
-        </svg>
-      </figure>
-    </section>
-
-    <!-- CHAPTER 2 -->
-    <section class="chapter" id="ch-2">
-      <div class="chapter-num reveal">02</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">New York</p>
-        <h2 class="reveal">Then came New York — and it doesn't wait for anyone.</h2>
-        <p class="reveal">
-          Moving to New York City was a different kind of education. The pace, the
-          ambition, the sheer number of people chasing something — it rewires you.
-          NYC taught me that if you want something, you go get it, and you don't wait
-          for permission or the perfect plan.
-        </p>
-      </div>
-    </section>
-
-    <!-- CHAPTER 3 -->
-    <section class="chapter" id="ch-3">
-      <div class="chapter-num reveal">03</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">The non‑traditional path</p>
-        <h2 class="reveal">I didn't take the straight road. I took the one that taught me the most.</h2>
-        <p class="reveal">
-          My path to a four-year degree started at community college. A lot of people
-          see that as a detour. For me, it was a launchpad. I put my head down, worked
-          hard, and excelled — and earned my way to Binghamton University.
-        </p>
-        <blockquote class="pull reveal">
-          “Where you start doesn't decide where you finish. How hard you're willing to
-          work does.”
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- CHAPTER 4 -->
-    <section class="chapter" id="ch-4">
-      <div class="chapter-num reveal">04</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">Binghamton University</p>
-        <h2 class="reveal">Where I fell for startups.</h2>
-        <p class="reveal">
-          At Binghamton, I studied Financial Economics — but what really grabbed me
-          was entrepreneurship. The idea that a small group of people with an idea and
-          enough grit could build something from nothing and put it into people's hands
-          was electric. I read everything I could, went to every talk I could find, and
-          started looking at problems as things to be built, not just studied.
-        </p>
-        <p class="meta reveal">B.S. Financial Economics · Binghamton University (SUNY) · 2015</p>
-      </div>
-    </section>
-
-    <!-- CHAPTER 5 -->
-    <section class="chapter chapter-feature" id="ch-5">
-      <div class="chapter-num reveal">05</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">The magic book</p>
-        <h2 class="reveal">My tech cofounder quit. So I learned to code.</h2>
-        <p class="reveal">
-          My first real startup was an <strong>augmented reality magic book</strong> —
-          a physical book that came alive when you pointed a phone at it. Characters
-          leaping off the page, stories you could explore instead of just read.
-        </p>
-        <p class="reveal">
-          Then, in the middle of building it, my technical cofounder quit.
-        </p>
-        <p class="reveal">
-          That could've been the end of the story. Instead, it became the turning point.
-          I didn't have someone to build it for me, so I decided I'd become someone who
-          could build it myself. I taught myself to code — one tutorial, one bug, one
-          late night at a time.
-        </p>
-        <p class="reveal emphasis">
-          That moment taught me the most important lesson of my career:
-          <span class="accent">when you're blocked, learn your way through it.</span>
-        </p>
-      </div>
-      <div class="book reveal" aria-hidden="true">
-        <div class="book-page left"></div>
-        <div class="book-page right"></div>
-        <div class="sparkles">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  <div id="story">
+    <div class="journey wrap">
+      <article class="stop">
+        <span class="mono">República Dominicana · 11 years</span>
+        <div class="cols">
+          <div class="text">
+            <h2>Eleven years in the Dominican Republic</h2>
+            <p>I was born in the United States, and I spent eleven years growing up in the Dominican Republic. That's where I learned to be resourceful. When you don't have everything handed to you, you get creative with what you have.</p>
+            <p>Growing up between two languages and two cultures taught me to adapt quickly, listen closely, and feel at home somewhere new. I still lean on that every day.</p>
+          </div>
         </div>
-        <div class="book-glyph">✦</div>
-      </div>
-    </section>
+      </article>
 
-    <!-- CHAPTER 6 -->
-    <section class="chapter" id="ch-6">
-      <div class="chapter-num reveal">06</div>
-      <div class="chapter-body">
-        <p class="eyebrow reveal">Shipping</p>
-        <h2 class="reveal">From “I can't code” to shipping real products.</h2>
-        <p class="reveal">
-          That self-taught foundation turned into a habit of building. I've designed and
-          built mobile apps and websites from the ground up — frontend and backend —
-          and gotten them into the hands of real users.
-        </p>
-        <ul class="chips reveal" aria-label="Things I've built with">
-          <li>Python</li><li>JavaScript</li><li>React</li><li>iOS · App Store</li>
-          <li>SQL</li><li>APIs</li><li>Heroku</li><li>AWS EC2</li><li>Snowflake</li><li>LLMs</li>
-        </ul>
-        <div class="stat-row reveal">
-          <div class="stat"><span class="stat-big">iOS</span><span class="stat-label">apps published to the App Store</span></div>
-          <div class="stat"><span class="stat-big">Full stack</span><span class="stat-label">web apps hosted on Heroku &amp; EC2</span></div>
+      <article class="stop">
+        <span class="mono">New York City</span>
+        <div class="cols">
+          <div class="text">
+            <h2>Then New York, which doesn't wait for anyone</h2>
+            <p>Moving to New York City was its own education. The pace and the ambition rewire you. New York taught me that if you want something, you go and get it. You don't wait for permission or a perfect plan.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="stop">
+        <span class="mono">Community college → SUNY</span>
+        <div class="cols">
+          <div class="text">
+            <h2>The non-traditional path</h2>
+            <p>My route to a four-year degree started at community college. Some people see that as a detour. For me it was a launchpad. I put my head down, excelled, and earned my transfer to Binghamton University.</p>
+          </div>
+          <p class="aside">Where you start doesn't decide where you finish.</p>
+        </div>
+      </article>
+
+      <article class="stop">
+        <span class="mono">Binghamton University · B.S. Financial Economics · 2015</span>
+        <div class="cols">
+          <div class="text">
+            <h2>Where I fell for startups</h2>
+            <p>I studied Financial Economics, but entrepreneurship is what grabbed me. A small group of people with an idea and enough grit could build something from nothing and put it in people's hands. I went to every talk I could find and started treating problems as things to build.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="book-band" aria-labelledby="book-h">
+      <div class="wrap">
+        <div class="text">
+          <span class="mono">The first startup</span>
+          <h2 id="book-h">The AR magic book</h2>
+          <p>My first real startup was an augmented reality magic book: a printed book that came alive when you pointed a phone at it. Characters stepped off the page, and kids could explore a story instead of only reading it.</p>
+          <p>Partway through the build, my technical cofounder quit.</p>
+          <p>Nobody was left to build it, so I decided to become someone who could. I taught myself to code, one tutorial, one bug and one late night at a time.</p>
+          <p class="turn">The lesson I still live by: <em>when you're blocked, learn your way through it.</em></p>
+        </div>
+        <div class="book" aria-hidden="true">
+          <div class="page l"><i></i><i></i><i></i><i></i></div>
+          <div class="page r"><i></i><i></i><i></i><i></i></div>
+          <div class="glyphs">
+            <span>&lt;/&gt;</span><span>def learn():</span><span>{ }</span><span>git push</span><span>import ar</span><span>✦</span><span>npm start</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 7: WORK -->
-    <section class="chapter" id="work">
-      <div class="chapter-num reveal">07</div>
-      <div class="chapter-body wide">
-        <p class="eyebrow reveal">Building inside great companies</p>
-        <h2 class="reveal">Bringing a builder's mindset to finance and data.</h2>
-        <p class="reveal">
-          The same curiosity that made me teach myself to code shaped my career.
-          I've spent a decade at the intersection of product, data, and technology —
-          turning messy problems into products people actually use.
-        </p>
-
-        <ol class="timeline">
-          <li class="reveal">
-            <div class="when">2023 — Present</div>
-            <div class="what">
-              <h3>Jefferies · Product Strategist, Investment Banking</h3>
-              <p class="role">Vice President (previously Associate)</p>
-              <ul>
-                <li>Led teams of data scientists, engineers, delivery, and business leaders to launch <strong>Jefferies' first LLM-powered application</strong>.</li>
-                <li>Own strategy and execution for a portfolio of fintech and banking software, driving adoption across <strong>200+ senior bankers</strong> and <strong>1,500</strong> investment banking professionals.</li>
-                <li>Use SQL-driven insights to decide what to build next and why.</li>
-              </ul>
-            </div>
-          </li>
-          <li class="reveal">
-            <div class="when">2021 — 2023</div>
-            <div class="what">
-              <h3>Jefferies · Data Analyst, Investment Banking</h3>
-              <ul>
-                <li>Delivered SQL and Python analysis behind <strong>$2B+</strong> M&amp;A sell-side deals.</li>
-                <li>Automated key performance reporting so teams could evaluate growth narratives faster.</li>
-              </ul>
-            </div>
-          </li>
-          <li class="reveal">
-            <div class="when">2016 — 2021</div>
-            <div class="what">
-              <h3>Avero · Product Owner &amp; Data Analyst</h3>
-              <ul>
-                <li>Owned the sales, onboarding, and billing platform end to end — <strong>cutting new-customer churn by 11%</strong>.</li>
-                <li>Delivered nationwide reporting on the restaurant industry's post-COVID recovery to <strong>2,000+ customers</strong>.</li>
-                <li>Centralized company data in Snowflake and Power BI, dramatically shortening time-to-insight.</li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-
-        <div class="numbers reveal" aria-label="Highlights">
-          <div><span class="n" data-count="1500" data-suffix="+">1,500+</span><span>bankers reached by products I lead</span></div>
-          <div><span class="n" data-count="2" data-prefix="$" data-suffix="B+">$2B+</span><span>in M&amp;A deals supported with data</span></div>
-          <div><span class="n" data-count="11" data-suffix="%">11%</span><span>reduction in new-customer churn</span></div>
-          <div><span class="n">1st</span><span>LLM-powered app at Jefferies</span></div>
+    <div class="journey wrap">
+      <article class="stop">
+        <span class="mono">Self-taught → App Store</span>
+        <div class="cols">
+          <div class="text">
+            <h2>From learning to code to shipping</h2>
+            <p>Teaching myself turned into a habit of building. I've designed and built mobile apps and websites from the ground up, frontend and backend, and published iOS apps to the App Store. I've hosted my own work on Heroku and AWS EC2.</p>
+            <ul class="stack" aria-label="Tools I build with">
+              <li>Python</li><li>JavaScript</li><li>React</li><li>iOS</li><li>SQL</li><li>REST APIs</li><li>Heroku</li><li>AWS EC2</li><li>Snowflake</li><li>LLMs</li>
+            </ul>
+          </div>
         </div>
+      </article>
+
+      <article class="stop" id="work">
+        <span class="mono">2016 → today</span>
+        <div class="text">
+          <h2>A builder inside finance and data</h2>
+          <p>I've spent ten years where product, data and technology meet, turning messy problems into products people use.</p>
+          <div class="roles">
+            <div class="role">
+              <span class="mono">2023 – now</span>
+              <div>
+                <h3>Jefferies<small>Product Strategist, Investment Banking · Vice President, previously Associate</small></h3>
+                <ul>
+                  <li>Led data scientists, engineers, delivery and business leaders to launch <strong>Jefferies' first LLM-powered application</strong>.</li>
+                  <li>Lead strategy for a portfolio of fintech and banking software used across <strong>200+ senior bankers</strong> and <strong>1,500</strong> investment banking professionals.</li>
+                  <li>Use SQL-driven analysis to decide what to build next.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="role">
+              <span class="mono">2021 – 2023</span>
+              <div>
+                <h3>Jefferies<small>Data Analyst, Investment Banking</small></h3>
+                <ul>
+                  <li>Ran SQL and Python analysis for <strong>$2B+</strong> M&amp;A sell-side deals.</li>
+                  <li>Automated performance reporting so deal teams could assess growth stories faster.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="role">
+              <span class="mono">2016 – 2021</span>
+              <div>
+                <h3>Avero<small>Product Owner &amp; Data Analyst</small></h3>
+                <ul>
+                  <li>Owned the sales, onboarding and billing platform end to end, <strong>cutting new-customer churn by 11%</strong>.</li>
+                  <li>Published nationwide reporting on the restaurant industry's post-COVID recovery for <strong>2,000+ customers</strong>.</li>
+                  <li>Centralized company data in Snowflake and Power BI.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="figs" aria-label="Highlights">
+            <div><b>1st</b><span>LLM-powered app at Jefferies</span></div>
+            <div><b>1,500</b><span>bankers served by products I lead</span></div>
+            <div><b>$2B+</b><span>in M&amp;A deals backed by my analysis</span></div>
+            <div><b>−11%</b><span>new-customer churn at Avero</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stop">
+        <span class="mono">What carries through</span>
+        <div class="text">
+          <h2>What I care about</h2>
+          <div class="values">
+            <div><h3>Learning</h3><p>From the DR to self-taught code to LLMs, I'm happiest when I'm a beginner at something new.</p></div>
+            <div><h3>Pushing my limits</h3><p>When my cofounder left, I learned to build it myself. I keep choosing problems a little bigger than I am.</p></div>
+            <div><h3>Caring about the work</h3><p>My name is on what I ship. I sweat the details because the people using it deserve that.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stop here">
+        <span class="mono">Now · still being written</span>
+        <div class="cols">
+          <div class="text">
+            <h2>Building what's next with AI</h2>
+            <p>Outside my day job, I'm building again, this time an AI startup. It's the same pull I felt at Binghamton, now with ten years of product and engineering experience behind it. I also invest in early-stage founders, including <strong>BoldVoice</strong>.</p>
+            <p>Away from the keyboard: skiing, judo, basketball, scuba diving and Formula 1.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2>Let's build <span>something.</span></h2>
+      <p>Founders, engineers, investors, or anyone curious: I'd love to hear from you.</p>
+      <div class="reach">
+        <span class="email" id="email">gonzalezjulius.c@gmail.com</span>
+        <button class="btn" id="copy-email" type="button">Copy email</button>
+        <a class="btn ghost" href="https://www.linkedin.com/in/juliuscgonzalez" target="_blank" rel="noopener">LinkedIn ↗</a>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
-    <!-- VALUES -->
-    <section class="values" id="values">
-      <p class="eyebrow reveal">What I care about</p>
-      <h2 class="reveal">The through-line.</h2>
-      <div class="value-grid">
-        <article class="value reveal">
-          <span class="value-icon">↗</span>
-          <h3>Always learning</h3>
-          <p>From Santo Domingo to self-taught code to LLMs — I'm happiest when I'm a beginner at something new.</p>
-        </article>
-        <article class="value reveal">
-          <span class="value-icon">⚡</span>
-          <h3>Pushing my limits</h3>
-          <p>When a door closed, I learned to build my own. I keep picking problems slightly bigger than I am.</p>
-        </article>
-        <article class="value reveal">
-          <span class="value-icon">✦</span>
-          <h3>Caring about the craft</h3>
-          <p>My name is on the work I put out. I sweat the details because the people using it deserve that.</p>
-        </article>
-        <article class="value reveal">
-          <span class="value-icon">◎</span>
-          <h3>Passion for tech</h3>
-          <p>Technology is the most powerful lever I know for helping people. I want to spend my life pulling it.</p>
-        </article>
-      </div>
-    </section>
+<footer>
+  <div class="wrap mono">
+    <span>© 2026 Julius Gonzalez</span>
+    <span>República Dominicana → New York</span>
+  </div>
+</footer>
 
-    <!-- NEXT CHAPTER -->
-    <section class="next" id="next">
-      <p class="eyebrow reveal">Chapter 08 · Being written now</p>
-      <h2 class="reveal">Building what's next with AI.</h2>
-      <p class="reveal">
-        Today, outside of my day job, I'm building again — this time an AI startup.
-        It's the same feeling I had at Binghamton, the same stubbornness I found when
-        my cofounder walked away, with ten more years of product and engineering
-        experience behind it. I also invest in early-stage founders, including
-        <strong>BoldVoice</strong>.
-      </p>
-      <p class="reveal small">
-        When I'm offline you'll find me skiing, on the judo mat, playing basketball,
-        scuba diving, or watching Formula 1.
-      </p>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
-      <h2 class="reveal">Let's build something.</h2>
-      <p class="reveal">Whether you're a founder, an engineer, an investor, or just curious — I'd love to hear from you.</p>
-      <div class="cta-row reveal">
-        <a class="btn primary" href="mailto:gonzalezjulius.c@gmail.com">Email me</a>
-        <a class="btn" href="https://www.linkedin.com/in/juliuscgonzalez" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span>© <span id="year">2026</span> Julius Gonzalez</span>
-    <span>Hand-built in New York.</span>
-  </footer>
-
-  <script src="script.js"></script>
+<script>
+(() => {
+  const btn = document.getElementById("copy-email");
+  const email = document.getElementById("email");
+  btn.addEventListener("click", () => {
+    const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy email"), 1800); };
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(email);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Selected, press Ctrl+C";
+    };
+    try { navigator.clipboard.writeText(email.textContent.trim()).then(done, fallback); } catch (e) { fallback(); }
+  });
+})();
+</script>
 </body>
 </html>
