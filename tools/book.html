@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Julius Gonzalez</title>
+<meta name="claude:viewport-fit-sides" content="cover" />
+<meta name="description" content="Julius Gonzalez: born in the US, raised in the Dominican Republic, built in New York. A short history in eight parts, told as a book." />
+<meta property="og:title" content="Julius Gonzalez" />
+<meta property="og:description" content="Born in the United States, raised in the Dominican Republic, built in New York." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English+SC&family=UnifrakturMaguntia&display=swap" rel="stylesheet" />
+<style>
+/* Layout: a bound book on a desk. Two-page spreads on wide screens, one page at a time on phones; every leaf turns on its spine. Inside, a Tufte page (footnotes, figures to scale, booktabs table) set like a Tudor octavo: blackletter initials, Fell small caps, running heads, folios and catchwords. */
+:root {
+  --desk: #e6e0d2;
+  --paper: #fffff8;
+  --paper-edge: #e9e3d1;
+  --ink: #1b1a17;
+  --ink-soft: #5c574d;
+  --rule: #d9d3c2;
+  --land: #ece6d2;
+  --oxblood: #8b1e1e;
+  --green: #2f5236;
+  --gold: #a07a24;
+  --beam: #2a241d;
+  --plaster: #f3eedf;
+  --cover: #4e1414;
+  --cover-deep: #2e0b0b;
+  --gilt: #d1aa55;
+  --body: "EB Garamond", Garamond, "Palatino Linotype", Palatino, Georgia, serif;
+  --caps: "IM Fell English SC", "EB Garamond", Garamond, Georgia, serif;
+  --black: "UnifrakturMaguntia", "Old English Text MT", "EB Garamond", serif;
+  --pw: min(480px, calc(100vw - 32px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #0d0c0a; --paper: #1c1a15; --paper-edge: #2a261f; --ink: #ece5d3; --ink-soft: #a89f8c; --rule: #3a342a; --land: #2a261e;
+    --oxblood: #d76a5c; --green: #8fbb92; --gold: #d2ac57; --beam: #050403; --plaster: #2b261e;
+    --cover: #4e1414; --cover-deep: #240909; --gilt: #d1aa55;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #0d0c0a; --paper: #1c1a15; --paper-edge: #2a261f; --ink: #ece5d3; --ink-soft: #a89f8c; --rule: #3a342a; --land: #2a261e;
+  --oxblood: #d76a5c; --green: #8fbb92; --gold: #d2ac57; --beam: #050403; --plaster: #2b261e;
+  --cover: #4e1414; --cover-deep: #240909; --gilt: #d1aa55;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--desk); color: var(--ink);
+  font-family: var(--body); font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column; overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--beam); }
+a { color: inherit; text-decoration-color: var(--oxblood); text-underline-offset: .15em; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 3px; }
+.sc { font-family: var(--caps); letter-spacing: .06em; }
+
+.timber {
+  height: 18px; border-block: 3px solid var(--beam); flex: none;
+  background:
+    repeating-linear-gradient(90deg, var(--beam) 0 4px, transparent 4px 56px),
+    repeating-linear-gradient(45deg, transparent 0 18px, var(--beam) 18px 20.5px, transparent 20.5px 39.6px),
+    repeating-linear-gradient(-45deg, transparent 0 18px, var(--beam) 18px 20.5px, transparent 20.5px 39.6px),
+    var(--plaster);
+}
+.bar {
+  flex: none; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-family: var(--caps); font-size: 15px; color: var(--ink-soft); letter-spacing: .06em;
+}
+.bar button, .controls button {
+  font: inherit; color: var(--ink); background: none; border: 0; cursor: pointer; padding: 6px 4px; letter-spacing: inherit;
+}
+.bar button:hover, .controls button:hover:not(:disabled) { color: var(--oxblood); }
+
+.stage { flex: 1; min-height: 0; display: grid; place-items: center; perspective: 2600px; padding: 6px 0 0; overflow: hidden; }
+.book {
+  position: relative; width: calc(var(--pw) * 2); height: calc(var(--pw) * 1.5);
+  transform-style: preserve-3d; transition: transform .9s cubic-bezier(.3, .1, .2, 1);
+}
+.book.single { width: var(--pw); }
+.book.at-start { transform: translateX(-25%); }
+.book.at-end { transform: translateX(25%); }
+.book.single.at-start, .book.single.at-end { transform: none; }
+.book.instant, .book.instant .leaf { transition: none !important; }
+.book::after { /* page block thickness under the open book */
+  content: ""; position: absolute; inset: 1% -4px -6px; z-index: -1; border-radius: 3px;
+  background: var(--paper-edge); box-shadow: 0 30px 50px -24px rgba(0, 0, 0, .55);
+  transition: opacity .4s;
+}
+.book.at-start::after { left: 50%; } .book.at-end::after { right: 50%; }
+.book.single::after { inset: 1% -5px -6px 0; left: 0; right: -5px; }
+
+.leaf {
+  position: absolute; top: 0; left: 50%; width: 50%; height: 100%;
+  transform-origin: left center; transform-style: preserve-3d;
+  transition: transform .9s cubic-bezier(.3, .1, .2, 1);
+}
+.leaf.flipped { transform: rotateY(-180deg); }
+.single .leaf { left: 0; width: 100%; transition: transform .8s cubic-bezier(.3, .1, .2, 1), opacity .2s; }
+.single .leaf.flipped { opacity: 0; transition: transform .8s cubic-bezier(.3, .1, .2, 1), opacity .25s .55s; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.face.back { transform: rotateY(180deg); }
+.face.blank { background: var(--paper); }
+
+/* ---------- the page ---------- */
+.page {
+  position: relative; width: var(--pw); height: calc(var(--pw) * 1.5);
+  background: var(--paper); color: var(--ink);
+  font-size: calc(var(--pw) * .037); line-height: 1.45;
+  padding: calc(var(--pw) * .065) calc(var(--pw) * .09) calc(var(--pw) * .05);
+  display: flex; flex-direction: column; overflow: hidden;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, .10), rgba(0, 0, 0, 0) 7%);
+}
+.page.verso { background-image: linear-gradient(270deg, rgba(0, 0, 0, .10), rgba(0, 0, 0, 0) 7%); }
+.face .page { width: 100%; height: 100%; }
+.run { font-family: var(--caps); font-size: .78em; color: var(--ink-soft); text-align: center; letter-spacing: .1em; flex: none; margin-bottom: .9em; }
+.pbody { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.foot { flex: none; display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; font-size: .8em; color: var(--ink-soft); padding-top: .6em; }
+.foot .folio { grid-column: 2; }
+.foot .catch { grid-column: 3; justify-self: end; font-style: italic; }
+.page p { margin: 0 0 .75em; hyphens: auto; -webkit-hyphens: auto; text-align: justify; }
+.page h2 { font-weight: 400; font-style: italic; font-size: 1.75em; line-height: 1.1; margin: 0 0 .6em; text-wrap: balance; }
+.page .part-no { display: block; font-family: var(--caps); font-style: normal; font-size: .52em; color: var(--oxblood); letter-spacing: .12em; margin-bottom: .35em; }
+.page .drop::first-letter { font-family: var(--black); float: left; font-size: 3.5em; line-height: .8; padding: .1em .1em 0 0; color: var(--oxblood); }
+.page .meta { font-family: var(--caps); font-size: .82em; color: var(--ink-soft); text-align: left; }
+.ref { font-variant-numeric: lining-nums; font-size: .65em; vertical-align: super; line-height: 0; color: var(--oxblood); }
+.notes { margin-top: auto; padding-top: .5em; font-size: .78em; line-height: 1.35; color: var(--ink-soft); }
+.notes::before { content: ""; display: block; width: 30%; border-top: 1px solid var(--ink-soft); margin-bottom: .5em; }
+.notes p { text-align: left; margin-bottom: .35em; }
+.notes .n { color: var(--oxblood); font-variant-numeric: lining-nums; margin-right: .3em; }
+strong { font-weight: 600; }
+
+/* cover + back cover: tooled leather */
+.page.cover {
+  background: radial-gradient(120% 90% at 50% 40%, var(--cover), var(--cover-deep));
+  color: var(--gilt); padding: calc(var(--pw) * .07);
+}
+.page.cover .tool {
+  flex: 1; border: 2px solid var(--gilt); outline: 1px solid var(--gilt); outline-offset: calc(var(--pw) * -.022);
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center;
+  padding: calc(var(--pw) * .09) calc(var(--pw) * .06);
+}
+.cover .over { font-family: var(--caps); letter-spacing: .3em; font-size: .9em; }
+.cover h1 { font-family: var(--black); font-weight: 400; font-size: 3.1em; line-height: 1; margin: 0; text-shadow: 0 1px 0 rgba(0, 0, 0, .5); }
+.cover .sub { font-style: italic; font-size: 1.15em; line-height: 1.35; max-width: 18em; margin: 0; }
+.cover .medal { width: 34%; height: auto; }
+.cover .medal .p1 { fill: none; stroke: var(--gilt); stroke-width: .7; } .cover .medal .p2 { fill: none; stroke: var(--gilt); stroke-width: .6; } .cover .medal .c { fill: var(--gilt); } .cover .medal .s { fill: var(--gilt); }
+.cover .hint { font-family: var(--caps); font-size: .78em; letter-spacing: .14em; opacity: .85; }
+.page.cover.back-cover .sub { font-size: 1.3em; }
+.page.cover.back-cover .tool { justify-content: center; gap: 1.4em; }
+
+/* map plate */
+.plate { display: flex; flex-direction: column; align-items: center; gap: .5em; flex: 1; min-height: 0; }
+.plate .map { flex: 1; min-height: 0; width: 100%; height: 100%; }
+.plate figcaption { font-size: .8em; color: var(--ink-soft); text-align: center; line-height: 1.35; }
+.plate button { font: inherit; font-family: var(--caps); color: var(--oxblood); background: none; border: 0; cursor: zoom-in; padding: 0; letter-spacing: .06em; }
+.map .frame { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.map .frame2 { fill: none; stroke: var(--ink); stroke-width: .5; }
+.map .sea { fill: var(--paper); }
+.map .land { fill: var(--land); stroke: var(--ink-soft); stroke-width: .5; stroke-linejoin: round; }
+.map .dr { fill: var(--oxblood); }
+.map .ny { fill: var(--green); fill-opacity: .55; stroke: var(--green); stroke-width: .6; }
+.map .grat { stroke: var(--rule); stroke-width: .6; fill: none; }
+.map .rhumb { stroke: var(--gold); stroke-width: .4; opacity: .55; }
+.map .route { fill: none; stroke: var(--oxblood); stroke-width: 2.6; stroke-linecap: round; }
+.map .lead { fill: none; stroke: var(--ink-soft); stroke-width: .6; stroke-dasharray: 2 3; }
+.map .city { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
+.map .city.on { fill: var(--oxblood); stroke: var(--oxblood); }
+.map text { font-family: var(--body); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.map .lbl { font-size: 17px; font-style: italic; }
+.map .lbl-sc { font-family: var(--caps); font-size: 14px; letter-spacing: .2em; fill: var(--ink-soft); }
+.map .tick { font-size: 13px; fill: var(--ink-soft); font-variant-numeric: lining-nums; }
+.map .key { font-family: var(--caps); font-size: 14px; fill: var(--oxblood); }
+.map .note { font-size: 14px; font-style: italic; fill: var(--ink-soft); }
+.map .inset-bg { fill: var(--paper); stroke: var(--ink); stroke-width: .8; }
+.map .star-a { fill: var(--ink); } .map .star-b { fill: var(--paper); stroke: var(--ink); stroke-width: .6; } .map .star-n { fill: var(--oxblood); }
+.map .scalebar rect { stroke: var(--ink); stroke-width: .6; }
+.map .scalebar .f { fill: var(--ink); } .map .scalebar .e { fill: var(--paper); }
+
+/* title page + contents */
+.title-page { text-align: center; }
+.title-page .kicker { font-family: var(--caps); color: var(--oxblood); font-size: .85em; letter-spacing: .12em; margin: .4em 0 1em; text-align: center; }
+.title-page h1 { font-weight: 400; font-style: italic; font-size: 2em; line-height: 1.08; margin: 0 0 .7em; text-wrap: balance; }
+.title-page h1 span { font-style: normal; }
+.title-page .lede { text-align: center; font-size: .95em; margin: 0 auto 1.1em; max-width: 26em; }
+.contents { text-align: left; }
+.contents h3 { font-family: var(--caps); font-weight: 400; font-size: .85em; letter-spacing: .14em; color: var(--ink-soft); text-align: center; margin: 0 0 .5em; }
+.contents ol { list-style: none; margin: 0; padding: 0; font-size: .92em; }
+.contents li a { display: flex; gap: .4em; align-items: baseline; text-decoration: none; padding: .12em 0; }
+.contents li a:hover .t { color: var(--oxblood); }
+.contents .k { font-family: var(--caps); color: var(--oxblood); width: 2.6em; flex: none; }
+.contents .dots { flex: 1; border-bottom: 1px dotted var(--ink-soft); transform: translateY(-.3em); }
+.contents .pg { font-variant-numeric: oldstyle-nums tabular-nums; }
+.rose-sm { display: block; margin: .8em auto 0; width: 1.6em; height: 1.6em; }
+.rose-sm .p1, .finis .p1 { fill: var(--oxblood); } .rose-sm .p2, .finis .p2 { fill: var(--paper); stroke: var(--oxblood); stroke-width: .8; } .rose-sm .c, .finis .c { fill: var(--gold); } .rose-sm .s, .finis .s { fill: var(--green); }
+
+/* plate: the lesson */
+.lesson-plate { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 1em; border: 1px solid var(--ink); outline: 1px solid var(--ink); outline-offset: calc(var(--pw) * -.018); padding: 1.6em; }
+.lesson-plate .big { font-style: italic; font-size: 1.9em; line-height: 1.15; margin: 0; text-align: center; text-wrap: balance; }
+.lesson-plate .big b { font-weight: 500; color: var(--oxblood); }
+.lesson-plate .attr { font-family: var(--caps); font-size: .85em; color: var(--ink-soft); text-align: center; margin: 0; }
+.lesson-plate .code { font-family: var(--caps); color: var(--ink-soft); font-size: .8em; letter-spacing: .08em; text-align: center; margin: 0; }
+
+.broadside { border: 1px solid var(--ink); outline: 1px solid var(--ink); outline-offset: 3px; padding: .7em 1em .4em; margin: .6em 3px 1em; text-align: center; }
+.broadside p { text-align: center; margin: 0 0 .3em; }
+.broadside .lesson { font-style: italic; font-size: 1.2em; line-height: 1.25; }
+.broadside .lesson b { font-weight: 500; color: var(--oxblood); }
+.broadside .attr { font-family: var(--caps); font-size: .8em; color: var(--ink-soft); }
+
+/* figure 2 + table */
+.chart { width: 100%; height: auto; display: block; margin: .3em 0 .6em; }
+.chart text { font-family: var(--body); fill: var(--ink); font-size: 17px; }
+.chart .yr { font-size: 15px; fill: var(--ink-soft); font-variant-numeric: lining-nums tabular-nums; }
+.chart .dur { font-size: 15.5px; font-style: italic; fill: var(--ink-soft); }
+.chart .axis, .chart .tk { stroke: var(--ink); stroke-width: .8; }
+.chart .bar { fill: var(--ink); } .chart .bar.now { fill: var(--oxblood); } .chart .edu { fill: var(--green); }
+.chart .nowline { stroke: var(--oxblood); stroke-width: .8; }
+.chart .now-t { fill: var(--oxblood); font-family: var(--caps); font-size: 14px; letter-spacing: .1em; }
+.figcap { font-size: .82em; color: var(--ink-soft); line-height: 1.35; }
+.figcap .sc { color: var(--ink); }
+table.figs { border-collapse: collapse; width: 100%; font-size: .86em; margin: .2em 0 .5em; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); line-height: 1.3; }
+table.figs caption { text-align: left; font-family: var(--caps); font-size: .95em; color: var(--ink-soft); padding-bottom: .3em; }
+table.figs th, table.figs td { text-align: left; padding: .28em .6em .28em 0; vertical-align: baseline; }
+table.figs thead th { font-weight: 400; font-style: italic; color: var(--ink-soft); border-bottom: 1px solid var(--ink); }
+table.figs td.v { text-align: right; font-variant-numeric: lining-nums tabular-nums; font-weight: 600; white-space: nowrap; padding-right: 1em; width: 4.6em; }
+table.figs td.v.r { color: var(--oxblood); }
+
+.values { display: grid; gap: .9em; margin-top: .3em; }
+.values div { border-top: 1px solid var(--ink); padding-top: .35em; }
+.values h3 { font-family: var(--caps); font-weight: 400; font-size: 1em; color: var(--oxblood); margin: 0 0 .15em; letter-spacing: .06em; }
+.values p { margin: 0; }
+
+.reach { display: flex; flex-direction: column; gap: .5em; align-items: flex-start; margin-top: .4em; }
+.email { font-size: 1em; padding: .35em .7em; border: 1px solid var(--rule); user-select: all; overflow-wrap: anywhere; font-variant-numeric: lining-nums; }
+.btns { display: flex; gap: .5em; flex-wrap: wrap; }
+.btn { font-family: var(--caps); font-size: .9em; letter-spacing: .06em; padding: .4em .9em; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn:hover { background: var(--oxblood); border-color: var(--oxblood); color: var(--paper); }
+.finis { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 1em; }
+.finis .word { font-family: var(--black); font-size: 3em; color: var(--oxblood); margin: 0; text-align: center; }
+.finis svg { width: 3em; height: 3em; }
+.finis .colophon { font-size: .82em; color: var(--ink-soft); max-width: 22em; text-align: center; font-style: italic; }
+
+/* controls */
+.controls {
+  flex: none; display: flex; justify-content: center; align-items: center; gap: 18px;
+  padding-block: 10px calc(12px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-family: var(--caps); font-size: 16px; letter-spacing: .06em; color: var(--ink-soft);
+}
+.controls button:disabled { opacity: .3; cursor: default; }
+#where { min-width: 11em; text-align: center; font-variant-numeric: lining-nums; }
+
+/* enlarged chart */
+.zoom { position: fixed; inset: 0; z-index: 20; background: var(--paper); overflow: auto; padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); }
+.zoom .map { width: 100%; max-width: 720px; height: auto; display: block; margin: 0 auto; }
+.zoom button { position: sticky; top: 0; float: right; z-index: 1; font-family: var(--caps); font-size: 16px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); padding: 6px 12px; cursor: pointer; }
+
+/* no-script fallback: pages stacked */
+#pages { display: grid; gap: 24px; justify-items: center; padding-block: 24px; }
+#pages[data-moved] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .book, .leaf, .single .leaf, .single .leaf.flipped { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="timber" aria-hidden="true"></div>
+<div class="bar">
+  <span>Julius Gonzalez</span>
+  <span><button type="button" data-go="2">Contents</button> · <a href="https://www.atriums.ai/" target="_blank" rel="noopener" style="text-decoration:none">Atriums AI ↗</a></span>
+</div>
+
+<main class="stage" id="stage">
+  <div class="book" id="book" aria-live="polite"></div>
+</main>
+
+<nav class="controls" aria-label="Turn pages">
+  <button type="button" id="prev" aria-label="Previous page">‹ Back</button>
+  <span id="where">Cover</span>
+  <button type="button" id="next" aria-label="Next page">Turn ›</button>
+</nav>
+
+<div id="pages">
+
+  <!-- 0 · cover -->
+  <section class="page cover" data-label="Cover">
+    <div class="tool">
+      <p class="over">A Short History</p>
+      <div>
+        <h1>Julius Gonzalez</h1>
+      </div>
+      __ROSE_MEDAL__
+      <p class="sub">Born in the United States, raised in the Dominican Republic, built in New York.</p>
+      <p class="hint">Turn the page ›</p>
+    </div>
+  </section>
+
+  <!-- 1 · frontispiece -->
+  <section class="page verso" data-run="Frontispiece">
+    <figure class="plate" style="margin:0">
+      __MAPSVG__
+      <figcaption><span class="sc" style="color:var(--ink)">The route,</span> on Mercator's projection of 1569. Numerals key each place to a part. <button type="button" id="enlarge">Enlarge the chart</button></figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 · title + contents -->
+  <section class="page" data-run="Julius Gonzalez">
+    <div class="title-page">
+      <p class="kicker">A short history, in eight parts</p>
+      <h1>Born in the United States, raised in the Dominican Republic, <span>built in New York.</span></h1>
+      <p class="lede">I took a non-traditional path into technology and have been teaching myself to build ever since. Today I'm building <a href="https://www.atriums.ai/" target="_blank" rel="noopener">Atriums AI</a>.</p>
+    </div>
+    <nav class="contents" aria-label="Contents">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#page-3" data-go="3"><span class="k">I</span><span class="t">The Dominican Republic</span><span class="dots"></span><span class="pg">3</span></a></li>
+        <li><a href="#page-4" data-go="4"><span class="k">II</span><span class="t">New York</span><span class="dots"></span><span class="pg">4</span></a></li>
+        <li><a href="#page-5" data-go="5"><span class="k">III</span><span class="t">The non-traditional path</span><span class="dots"></span><span class="pg">5</span></a></li>
+        <li><a href="#page-6" data-go="6"><span class="k">IV</span><span class="t">Binghamton</span><span class="dots"></span><span class="pg">6</span></a></li>
+        <li><a href="#page-7" data-go="7"><span class="k">V</span><span class="t">The magic book</span><span class="dots"></span><span class="pg">7</span></a></li>
+        <li><a href="#page-9" data-go="9"><span class="k">VI</span><span class="t">Learning to ship</span><span class="dots"></span><span class="pg">9</span></a></li>
+        <li><a href="#page-10" data-go="10"><span class="k">VII</span><span class="t">Finance and data</span><span class="dots"></span><span class="pg">10</span></a></li>
+        <li><a href="#page-13" data-go="13"><span class="k">VIII</span><span class="t">Atriums AI</span><span class="dots"></span><span class="pg">13</span></a></li>
+        <li><a href="#page-15" data-go="15"><span class="k"></span><span class="t">About the author</span><span class="dots"></span><span class="pg">15</span></a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <!-- 3 · Part I -->
+  <section class="page verso" data-run="Hispaniola">
+    <h2><span class="part-no">Part I</span>Eleven years in the Dominican Republic</h2>
+    <p class="drop">I was born in the United States and spent eleven years growing up in the Dominican Republic.<span class="ref">1</span> That's where I learned to be resourceful. When you don't have everything handed to you, you get creative with what you have.</p>
+    <p>Growing up between two languages and two cultures taught me to adapt quickly, listen closely, and feel at home somewhere new. I still lean on that every day.</p>
+    <div class="notes"><p><span class="n">1</span>The Dominican Republic shares the island of Hispaniola with Haiti. It is shaded red on the frontispiece.</p></div>
+  </section>
+
+  <!-- 4 · Part II -->
+  <section class="page" data-run="New York">
+    <h2><span class="part-no">Part II</span>New York, which doesn't wait for anyone</h2>
+    <p class="drop">Moving to New York City was its own education.<span class="ref">2</span> The pace and the ambition rewire you. New York taught me that if you want something, you go and get it. You don't wait for permission or a perfect plan.</p>
+    <div class="notes"><p><span class="n">2</span>About 1,550 miles north of where I grew up, measured in a straight line.</p></div>
+  </section>
+
+  <!-- 5 · Part III -->
+  <section class="page verso" data-run="The Long Way Round">
+    <h2><span class="part-no">Part III</span>The non-traditional path</h2>
+    <p class="drop">My route to a four-year degree started at community college. Some people see that as a detour. For me it was a launchpad. I put my head down, excelled, and earned my transfer to Binghamton University.<span class="ref">3</span></p>
+    <div class="notes"><p><span class="n">3</span>Where you start doesn't decide where you finish.</p></div>
+  </section>
+
+  <!-- 6 · Part IV -->
+  <section class="page" data-run="Binghamton">
+    <h2><span class="part-no">Part IV</span>Binghamton, where I fell for startups</h2>
+    <p class="drop">I studied Financial Economics, but entrepreneurship is what grabbed me. A small group of people with an idea and enough grit could build something from nothing and put it in people's hands. I went to every talk I could find and started treating problems as things to build.</p>
+    <p class="meta">Binghamton University, State University of New York · B.S. Financial Economics · December 2015</p>
+  </section>
+
+  <!-- 7 · Part V -->
+  <section class="page verso" data-run="The Magic Book">
+    <h2><span class="part-no">Part V</span>The magic book</h2>
+    <p class="drop">My first real startup was an augmented reality magic book: a printed book that came alive when you pointed a phone at it. Characters stepped off the page, and readers could explore a story instead of only reading it.</p>
+    <p>Partway through the build, my technical cofounder quit. Nobody was left to build it, so I decided to become someone who could.</p>
+    <p>I taught myself to code, one tutorial, one bug and one late night at a time.</p>
+  </section>
+
+  <!-- 8 · plate -->
+  <section class="page" data-run="The Lesson">
+    <div class="lesson-plate">
+      <p class="code">Plate I</p>
+      <p class="big">When you're blocked, <b>learn your way through it.</b></p>
+      __ROSE_SM__
+      <p class="attr">The lesson I still work by</p>
+    </div>
+  </section>
+
+  <!-- 9 · Part VI -->
+  <section class="page verso" data-run="Shipping">
+    <h2><span class="part-no">Part VI</span>From learning to code to shipping</h2>
+    <p class="drop">Teaching myself turned into a habit of building. I've designed and built mobile apps and websites from the ground up, frontend and backend, and published iOS apps to the App Store.<span class="ref">4</span></p>
+    <p><span class="sc">Tools of the trade:</span> Python, JavaScript, React, iOS, SQL, REST APIs, Snowflake, Power BI and large language models.</p>
+    <div class="notes"><p><span class="n">4</span>My own projects have run on Heroku and on AWS EC2.</p></div>
+  </section>
+
+  <!-- 10 · Part VII a -->
+  <section class="page" data-run="Finance &amp; Data">
+    <h2><span class="part-no">Part VII</span>A builder inside finance and data</h2>
+    <p class="drop">For ten years I've worked where product, data and technology meet, turning messy problems into products people use.</p>
+    <p>At <strong>Jefferies</strong>, as Product Strategist in Investment Banking, now Vice President, I led data scientists, engineers, delivery and business leaders to launch the firm's first LLM-powered application.<span class="ref">5</span> I set strategy for a portfolio of fintech and banking software and use SQL-driven analysis to decide what to build next.</p>
+    <div class="notes"><p><span class="n">5</span>Before that, as a Data Analyst at Jefferies, I ran SQL and Python analysis for M&amp;A sell-side deals and automated the team's performance reporting.</p></div>
+  </section>
+
+  <!-- 11 · Part VII b -->
+  <section class="page verso" data-run="Finance &amp; Data">
+    <p>At <strong>Avero</strong>, as Product Owner and Data Analyst, I owned the sales, onboarding and billing platform end to end. I published nationwide reporting on the restaurant industry's recovery after COVID and moved the company's data into Snowflake and Power BI.</p>
+    <table class="figs">
+      <caption>Table 1. The work, in numbers</caption>
+      <thead><tr><th scope="col">Figure</th><th scope="col">What it measures</th></tr></thead>
+      <tbody>
+        <tr><td class="v r">1st</td><td>LLM-powered application at Jefferies</td></tr>
+        <tr><td class="v">1,500</td><td>professionals served by the products I lead, 200+ of them senior bankers</td></tr>
+        <tr><td class="v">$2B+</td><td>in M&amp;A sell-side deals supported by my analysis</td></tr>
+        <tr><td class="v">2,000+</td><td>Avero customers given the post-COVID recovery reporting</td></tr>
+        <tr><td class="v">−11%</td><td>new-customer churn after the billing and onboarding rebuild</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 12 · Figure 2 -->
+  <section class="page" data-run="Finance &amp; Data">
+    <p class="figcap" style="margin-top:.5em"><span class="sc">Figure 2.</span> The decade to scale.</p>
+    <svg class="chart" viewBox="0 -4 440 268" role="img" aria-labelledby="chart-t">
+      <title id="chart-t">Career timeline from December 2015 to November 2026</title>
+      __CHART__
+    </svg>
+    <p class="figcap">Each bar runs from its start month to its end month on one scale. Durations are in italic beside each role. The red bar is the current role and the green mark is graduation.</p>
+  </section>
+
+  <!-- 13 · Part VIII -->
+  <section class="page verso" data-run="Atriums AI">
+    <h2><span class="part-no">Part VIII</span>Atriums AI</h2>
+    <p class="drop">Outside my day job, I'm building again. <a href="https://www.atriums.ai/" target="_blank" rel="noopener"><strong>Atriums AI</strong></a><span class="ref">6</span> is a live room where a team talks through an idea and AI coding agents build it while they talk. The group compares the versions side by side, votes, and pushes the winner to GitHub with a spec.</p>
+    <p>It's the same pull I felt at Binghamton and the same stubbornness from the magic book, now with ten years of product experience behind it.</p>
+    <div class="broadside">
+      <p class="lesson">From conversation <b>to working prototype,</b> in one meeting.</p>
+    </div>
+    <div class="notes"><p><span class="n">6</span>See it live at <a href="https://www.atriums.ai/" target="_blank" rel="noopener">atriums.ai</a>.</p></div>
+  </section>
+
+  <!-- 14 · values -->
+  <section class="page" data-run="What Carries Through">
+    <h2><span class="part-no">Epilogue</span>What carries through</h2>
+    <div class="values">
+      <div><h3>Learning</h3><p>From the DR to self-taught code to LLMs, I'm happiest as a beginner at something new.</p></div>
+      <div><h3>Pushing my limits</h3><p>When my cofounder left, I learned to build it myself. I keep choosing problems a little bigger than I am.</p></div>
+      <div><h3>Caring about the work</h3><p>My name is on what I ship. I sweat the details because the people using it deserve that.</p></div>
+    </div>
+  </section>
+
+  <!-- 15 · about + correspondence -->
+  <section class="page verso" data-run="About the Author">
+    <h2><span class="part-no">About the author</span>Julius Gonzalez</h2>
+    <p class="drop">Julius Gonzalez is a product strategist and self-taught engineer in New York, and the founder of Atriums AI. He invests in early-stage founders, including <strong>BoldVoice</strong>. Away from the keyboard he skis, trains judo, plays basketball, scuba dives and follows Formula 1.</p>
+    <p class="sc" style="color:var(--oxblood);margin:.4em 0 .2em">Correspondence</p>
+    <p>Founders, engineers, investors, or anyone curious: I'd love to hear from you.</p>
+    <div class="reach">
+      <span class="email" id="email">gonzalezjulius.c@gmail.com</span>
+      <div class="btns">
+        <button class="btn" id="copy-email" type="button">Copy email</button>
+        <a class="btn ghost" href="https://www.linkedin.com/in/juliuscgonzalez" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 · finis -->
+  <section class="page" data-run="Julius Gonzalez">
+    <div class="finis">
+      __ROSE_SM__
+      <p class="word">Finis</p>
+      <p class="colophon">Set in Garamond and Fell, with blackletter initials. The frontispiece is drawn on Mercator's projection from Natural Earth data. Made in New York, MMXXVI.</p>
+    </div>
+  </section>
+
+  <!-- 17 · back cover -->
+  <section class="page cover back-cover verso" data-label="Back cover">
+    <div class="tool">
+      __ROSE_MEDAL__
+      <p class="sub">Hispaniola. New York. Binghamton. A magic book, a decade in finance and data, and a room where ideas get built.</p>
+      <p class="over"><a href="https://www.atriums.ai/" target="_blank" rel="noopener" style="text-decoration:none">atriums.ai</a></p>
+    </div>
+  </section>
+</div>
+
+<div class="zoom" id="zoom" hidden>
+  <button type="button" id="zoom-close">Close ✕</button>
+  <div id="zoom-body"></div>
+</div>
+
+<script>
+(() => {
+  const pages = [...document.querySelectorAll("#pages > .page")];
+  const holder = document.getElementById("pages");
+  const book = document.getElementById("book");
+  const stage = document.getElementById("stage");
+  const where = document.getElementById("where");
+  const prevB = document.getElementById("prev"), nextB = document.getElementById("next");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const N = pages.length; // 18
+  holder.dataset.moved = "1";
+  let mode = null, leaves = [], cur = 0, turning = -1, timer = null;
+
+  // running heads, folios, catchwords
+  pages.forEach((p, i) => {
+    if (p.classList.contains("cover")) return;
+    const inner = document.createElement("div"); inner.className = "pbody";
+    while (p.firstChild) inner.appendChild(p.firstChild);
+    const run = document.createElement("div"); run.className = "run"; run.textContent = p.dataset.run || "";
+    const foot = document.createElement("div"); foot.className = "foot";
+    const next = pages[i + 1];
+    let cw = "";
+    if (next && !next.classList.contains("cover")) {
+      let el = next.querySelector("h1, h2, p, figcaption");
+      if (el) { el = el.cloneNode(true); el.querySelectorAll(".part-no, .ref").forEach((x) => x.remove()); }
+      const txt = (el ? el.textContent : "").trim().split(/\s+/)[0] || "";
+      cw = txt.replace(/[^\p{L}\p{N}'’-]/gu, "");
+    }
+    foot.innerHTML = `<span class="folio">${i}</span><span class="catch"></span>`;
+    foot.querySelector(".catch").textContent = cw;
+    p.append(run, inner, foot);
+  });
+  pages.forEach((p) => { if (p.classList.contains("cover")) return; });
+
+  function pageOf(c) { return mode === "spread" ? Math.max(0, 2 * c - 1) : c; }
+  function curFor(p) { return mode === "spread" ? Math.floor((p + 1) / 2) : p; }
+  function maxCur() { return mode === "spread" ? leaves.length : leaves.length - 1; }
+
+  function layout() {
+    const W = stage.clientWidth - 32;
+    const H = stage.clientHeight - 16;
+    const want = W >= 760 ? "spread" : "single";
+    const pw = Math.max(240, Math.floor(want === "spread" ? Math.min(W / 2, H / 1.5, 560) : Math.min(W, H / 1.5, 520)));
+    document.documentElement.style.setProperty("--pw", pw + "px");
+    if (want !== mode) {
+      const p = mode ? pageOf(cur) : startPage();
+      mode = want; build(); cur = Math.min(curFor(p), maxCur()); render(true);
+    }
+  }
+  function startPage() {
+    const m = /^#page-(\d+)$/.exec(location.hash);
+    return m ? Math.min(N - 1, +m[1]) : 0;
+  }
+  function build() {
+    book.classList.add("instant");
+    book.replaceChildren(); leaves = [];
+    book.classList.toggle("single", mode === "single");
+    const mk = (c) => { const d = document.createElement("div"); d.className = c; return d; };
+    if (mode === "spread") {
+      for (let k = 0; k < N / 2; k++) {
+        const leaf = mk("leaf"), f = mk("face front"), b = mk("face back");
+        pages[2 * k].classList.remove("verso"); pages[2 * k + 1].classList.add("verso");
+        f.append(pages[2 * k]); b.append(pages[2 * k + 1]); leaf.append(f, b); book.append(leaf); leaves.push(leaf);
+      }
+    } else {
+      pages.forEach((p) => { p.classList.remove("verso"); const leaf = mk("leaf"), f = mk("face front"), b = mk("face back blank"); f.append(p); leaf.append(f, b); book.append(leaf); leaves.push(leaf); });
+    }
+    holder.dataset.moved = "1";
+  }
+  function render(instant) {
+    if (instant) book.classList.add("instant");
+    const L = leaves.length;
+    leaves.forEach((leaf, k) => {
+      const f = k < cur;
+      leaf.classList.toggle("flipped", f);
+      leaf.style.zIndex = k === turning ? 3 * L : (f ? k + 1 : L - k);
+      leaf.setAttribute("aria-hidden", visible(k) ? "false" : "true");
+      leaf.inert = !visible(k);
+    });
+    book.classList.toggle("at-start", cur === 0);
+    book.classList.toggle("at-end", mode === "spread" && cur === L);
+    prevB.disabled = cur === 0; nextB.disabled = cur === maxCur();
+    const p = pageOf(cur);
+    if (mode === "spread") where.textContent = cur === 0 ? "Cover" : cur === L ? "Back cover" : `Pages ${2 * cur - 1}–${2 * cur} of ${N - 2}`;
+    else where.textContent = cur === 0 ? "Cover" : cur === N - 1 ? "Back cover" : `Page ${cur} of ${N - 2}`;
+    try { history.replaceState(null, "", cur === 0 ? location.pathname + location.search : "#page-" + p); } catch (e) {}
+    if (instant) { void book.offsetWidth; requestAnimationFrame(() => book.classList.remove("instant")); }
+  }
+  function visible(k) { return mode === "spread" ? (k === cur || k === cur - 1) : k === cur; }
+  function step(dir) {
+    const next = cur + dir;
+    if (next < 0 || next > maxCur()) return false;
+    turning = dir > 0 ? cur : cur - 1;
+    cur = next; render(false);
+    clearTimeout(timer); timer = setTimeout(() => { turning = -1; render(false); }, 950);
+    return true;
+  }
+  function go(target) {
+    target = Math.max(0, Math.min(maxCur(), target));
+    if (reduced) { cur = target; render(true); return; }
+    const dir = target > cur ? 1 : -1;
+    const tick = () => { if (cur !== target && step(dir)) setTimeout(tick, 160); };
+    tick();
+  }
+  prevB.addEventListener("click", () => step(-1));
+  nextB.addEventListener("click", () => step(1));
+  document.addEventListener("keydown", (e) => {
+    if (!document.getElementById("zoom").hidden) { if (e.key === "Escape") closeZoom(); return; }
+    if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); step(1); }
+    if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); step(-1); }
+    if (e.key === "Home") go(0);
+    if (e.key === "End") go(maxCur());
+  });
+  document.querySelectorAll("[data-go]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); go(curFor(+a.dataset.go)); }));
+  let swipeX = null, swiped = false;
+  book.addEventListener("pointerdown", (e) => { swipeX = e.clientX; swiped = false; });
+  book.addEventListener("pointerup", (e) => {
+    if (swipeX === null) return; const dx = e.clientX - swipeX; swipeX = null;
+    if (Math.abs(dx) > 45) { swiped = true; step(dx < 0 ? 1 : -1); }
+  });
+  book.addEventListener("click", (e) => {
+    if (swiped || e.target.closest("a, button, .email, table")) return;
+    const r = book.getBoundingClientRect(); const x = e.clientX - r.left;
+    if (mode === "spread") step(x > r.width / 2 ? 1 : -1); else step(x > r.width * .3 ? 1 : -1);
+  });
+
+  // enlarge the chart
+  const zoom = document.getElementById("zoom");
+  function closeZoom() { zoom.hidden = true; document.getElementById("enlarge").focus(); }
+  document.getElementById("enlarge").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const svg = pages[1].querySelector("svg.map").cloneNode(true);
+    document.getElementById("zoom-body").replaceChildren(svg);
+    zoom.hidden = false; document.getElementById("zoom-close").focus();
+  });
+  document.getElementById("zoom-close").addEventListener("click", closeZoom);
+
+  // copy email
+  const btn = document.getElementById("copy-email"), email = document.getElementById("email");
+  btn.addEventListener("click", () => {
+    const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy email"), 1800); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(email); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected"; };
+    try { navigator.clipboard.writeText(email.textContent.trim()).then(done, fallback); } catch (e) { fallback(); }
+  });
+
+  addEventListener("resize", layout);
+  addEventListener("hashchange", () => { const p = startPage(); go(curFor(p)); });
+  layout();
+})();
+</script>
+</body>
+</html>

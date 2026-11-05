@@ -1,27 +1,25 @@
 # juliusgonzalez — personal site
 
-A story-driven, single-page personal site. One self-contained `index.html` (inline CSS and JS, Google Fonts), no build step.
+A personal site told as a short storybook: a tooled-leather cover, then pages that turn on their spine. Two-page spreads on wide screens, one page at a time on phones. Turn with the arrows, the arrow keys, a click on either page, or a swipe. Pages are linkable as `#page-N`.
 
-Design: Edward Tufte's *The Visual Display of Quantitative Information* blended with Tudor printing. A single reading column with margin sidenotes, a Mercator chart of the journey (Hispaniola → New York, with a New York State inset), a to-scale career timeline and a booktabs table. Tudor touches: blackletter initials, IM Fell small caps, a half-timbered band and a Tudor rose between parts. Light and dark themes follow the visitor's device.
+Inside, the pages follow Edward Tufte's *The Visual Display of Quantitative Information* (footnotes, a to-scale timeline, a booktabs table, a Mercator chart of the journey from Hispaniola to New York) and are set like a Tudor octavo: blackletter initials, IM Fell small caps, running heads, folios and catchwords.
 
 ## Run locally
 ```bash
 python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
-## Deploy (pick one, all free)
-- **GitHub Pages:** Settings → Pages → deploy from branch `main`, folder `/`.
-- **Vercel / Netlify:** import the repo; framework = "Other", no build command, output dir = `.`
+## Deploy (free)
+- **GitHub Pages:** Settings → Pages → deploy from branch, folder `/`.
+- **Vercel / Netlify:** import the repo; framework "Other", no build command, output dir `.`
 
-## Rebuilding the map
-`index.html` is generated from `tools/template.html`. The map paths come from Natural Earth via the npm packages `world-atlas@2.0.2` and `us-atlas@3.0.1`:
+## Editing
+`index.html` is generated. Edit `tools/book.html` (one `<section class="page">` per page; keep an even page count so spreads pair up), then rebuild:
 ```bash
-mkdir -p work/geo && cd work/geo
-curl -sO https://registry.npmjs.org/world-atlas/-/world-atlas-2.0.2.tgz && mkdir wa && tar -xzf world-atlas-2.0.2.tgz -C wa
-curl -sO https://registry.npmjs.org/us-atlas/-/us-atlas-3.0.1.tgz && mkdir us && tar -xzf us-atlas-3.0.1.tgz -C us
-cd ../.. && cp tools/template.html work/tools/ 2>/dev/null || (mkdir -p work/tools && cp tools/template.html work/tools/)
-python3 tools/geo.py work/geo work/geo/map.json && python3 tools/build.py work index.html
+mkdir -p work/geo work/tools && cd work/geo
+curl -sO https://registry.npmjs.org/world-atlas/-/world-atlas-2.0.2.tgz && mkdir -p wa && tar -xzf world-atlas-2.0.2.tgz -C wa
+curl -sO https://registry.npmjs.org/us-atlas/-/us-atlas-3.0.1.tgz && mkdir -p us && tar -xzf us-atlas-3.0.1.tgz -C us
+cd ../.. && cp tools/book.html tools/mapsvg.html work/tools/
+python3 tools/geo.py work/geo work/geo/map.json && python3 tools/build_book.py work index.html
 ```
-
-## Editing the story
-Edit `tools/template.html` and rebuild (or edit `index.html` directly for quick text changes). Each part is a `<section class="part col">`; sidenotes are `<span class="sidenote">` inside a paragraph. All colors and fonts are tokens at the top of the `<style>` block.
+For a quick text fix you can also edit `index.html` directly.

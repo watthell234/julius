@@ -1,0 +1,47 @@
+<svg class="map" viewBox="-36 -26 632 908" role="img" aria-labelledby="map-t map-d">
+        <title id="map-t">The journey, drawn on a Mercator chart</title>
+        <desc id="map-d">A route runs about 1,550 miles north from the Dominican Republic to New York City. An inset of New York State shows the 140-mile leg between New York City and Binghamton.</desc>
+        <defs>
+          <clipPath id="frame"><rect x="0" y="0" width="560" height="__H__" /></clipPath>
+          <clipPath id="iframe"><rect x="0" y="0" width="200" height="__IH__" /></clipPath>
+          <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--oxblood)" /></marker>
+        </defs>
+        <rect class="sea" x="0" y="0" width="560" height="__H__" />
+        <g clip-path="url(#frame)">
+          <g class="rhumb">__RHUMB__</g>
+          <g class="grat">__GRAT__</g>
+          <path class="land" d="__LAND__" />
+          <path class="ny" d="__NY__" />
+          <path class="dr" d="__DR__" />
+          <path class="route" d="__ROUTE__" opacity=".18" />
+          <path class="route draw" d="__ROUTE__" marker-end="url(#arr)" />
+          <text class="lbl-sc" x="420" y="585" text-anchor="middle">ATLANTIC</text>
+          <text class="lbl-sc" x="420" y="603" text-anchor="middle">OCEAN</text>
+          <text class="note" x="__NOTEX__" y="__NOTEY__" text-anchor="start">≈ 1,550 miles</text>
+          <text class="lbl" x="__DRLX__" y="__DRLY__" text-anchor="start">Hispaniola</text>
+          <text class="key" x="__DRKX__" y="__DRKY__" text-anchor="start">I · eleven years</text>
+          <text class="lbl" x="__NYCLX__" y="__NYCLY__" text-anchor="start">New York City</text>
+          <text class="key" x="__NYCKX__" y="__NYCKY__" text-anchor="start">II · VII · VIII</text>
+          <circle class="city on" cx="__SDX__" cy="__SDY__" r="4.5" />
+          <circle class="city on" cx="__NYCX__" cy="__NYCY__" r="4.5" />
+          <path class="lead" d="__LEAD__" />
+          <g transform="translate(__INX__,__INY__)">
+            <rect class="inset-bg" x="0" y="0" width="200" height="__IH__" />
+            <g clip-path="url(#iframe)">
+              <path class="land" d="__ILAND__" />
+              <path class="ny" d="__INSETNY__" />
+            </g>
+            <path class="route" d="__IROUTE__" stroke-width="2" marker-end="url(#arr)" />
+            <circle class="city on" cx="__INYCX__" cy="__INYCY__" r="3.5" />
+            <circle class="city" cx="__IBX__" cy="__IBY__" r="3.5" />
+            <text class="lbl" x="__IBX__" y="__IBLY__" text-anchor="middle" style="font-size:13px">Binghamton · IV</text>
+            <text class="note" x="__INOTEX__" y="__INOTEY__" style="font-size:12px">≈ 140 mi</text>
+            <text class="lbl-sc" x="8" y="16" style="font-size:10.5px">NEW YORK STATE</text>
+          </g>
+          <g class="star" transform="translate(__STARX__,__STARY__)">__STAR__</g>
+          <g class="scalebar" transform="translate(18,__SBY__)">__SCALE__</g>
+        </g>
+        <rect class="frame" x="0" y="0" width="560" height="__H__" />
+        <rect class="frame2" x="-5" y="-5" width="570" height="__H5__" />
+        __TICKS__
+      </svg>

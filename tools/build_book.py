@@ -1,5 +1,5 @@
 import json, math, sys
-S=sys.argv[1]; m=json.load(open(f'{S}/geo/map.json')); t=open(f'{S}/tools/template.html').read()
+S=sys.argv[1]; m=json.load(open(f'{S}/geo/map.json')); t=open(f'{S}/tools/book.html').read().replace('__MAPSVG__',open(f'{S}/tools/mapsvg.html').read())
 f=lambda v: f'{v:.1f}'
 W,H=560,m['H']; sd=m['pts']['sd']; nyc=m['pts']['nyc']
 r={}
@@ -66,25 +66,28 @@ for k in range(5):
 for k in range(5):
     a=math.radians(36+72*k); ro.append(f'<circle class="p2" cx="{f(3.6*math.sin(a))}" cy="{f(-3.6*math.cos(a))}" r="3.4" />')
 ro.append('<circle class="c" r="2.4" /></svg>'); r['ROSE']=''.join(ro)
-# chart
-X=lambda tt: 80+(tt-2015.75)*70
+r['ROSE_SM']=r['ROSE'].replace('<svg ','<svg class="rose-sm" aria-hidden="true" ',1)
+r['ROSE_MEDAL']=r['ROSE'].replace('<svg ','<svg class="medal" aria-hidden="true" ',1)
+# chart (page-sized)
+X=lambda tt: 22+(tt-2015.75)*36.2
 NOW=2026+10/12
 ch=[]
-ch.append(f'<line class="nowline" x1="{f(X(NOW))}" y1="14" x2="{f(X(NOW))}" y2="214" />')
-ch.append(f'<text class="now-t" x="{f(X(NOW))}" y="10" text-anchor="end">NOW · NOV 2026</text>')
-g0=X(2015+11/12); ch.append(f'<path class="edu" d="M{f(g0)},24 l6,6 l-6,6 l-6,-6 Z" />')
-ch.append(f'<text x="{f(g0+12)}" y="35">Binghamton University, B.S. <tspan class="dur" dx="6">Dec 2015</tspan></text>')
-rows=[(2016,2021+9/12,80,'Avero · Product Owner &amp; Data Analyst','5 yr 9 mo',''),
-      (2021+9/12,2023+4/12,130,'Jefferies · Data Analyst','1 yr 7 mo',''),
-      (2023+4/12,NOW,180,'Jefferies · Product Strategist, Associate → VP','3 yr 6 mo','now')]
-for a,b,y,lab,dur,cls in rows:
-    ch.append(f'<rect class="bar {cls}" x="{f(X(a))}" y="{y-4}" width="{f(X(b)-X(a))}" height="8" />')
-    full=f'{lab} <tspan class="dur" dx="6">{dur}</tspan>'
-    if X(a)+330>X(NOW): ch.append(f'<text x="{f(X(b)-8)}" y="{y-12}" text-anchor="end">{full}</text>')
-    else: ch.append(f'<text x="{f(X(a))}" y="{y-12}">{full}</text>')
-ch.append(f'<line class="axis" x1="{f(X(2016))}" y1="226" x2="{f(X(NOW))}" y2="226" />')
+ch.append(f'<line class="nowline" x1="{f(X(NOW))}" y1="14" x2="{f(X(NOW))}" y2="222" />')
+ch.append(f'<text class="now-t" x="{f(X(NOW))}" y="9" text-anchor="end">NOW · NOV 2026</text>')
+g0=X(2015+11/12); ch.append(f'<path class="edu" d="M{f(g0)},26 l6,6 l-6,6 l-6,-6 Z" />')
+ch.append(f'<text x="{f(g0+11)}" y="37">Binghamton, B.S. <tspan class="dur" dx="4">Dec 2015</tspan></text>')
+rows=[(2016,2021+9/12,82,'Avero','Product Owner &amp; Data Analyst','5 yr 9 mo',''),
+      (2021+9/12,2023+4/12,138,'Jefferies','Data Analyst','1 yr 7 mo',''),
+      (2023+4/12,NOW,194,'Jefferies','Product Strategist, Assoc. → VP','3 yr 6 mo','now')]
+for a_,b_,y,co,role,dur,cls in rows:
+    ch.append(f'<rect class="bar {cls}" x="{f(X(a_))}" y="{y-3.5}" width="{f(X(b_)-X(a_))}" height="7" />')
+    l1=f'{co} <tspan class="dur" dx="4">{dur}</tspan>'
+    if X(a_)+250>440: ch.append(f'<text x="{f(X(b_))}" y="{y-26}" text-anchor="end">{l1}</text><text class="dur" x="{f(X(b_))}" y="{y-11}" text-anchor="end">{role}</text>')
+    else: ch.append(f'<text x="{f(X(a_))}" y="{y-26}">{l1}</text><text class="dur" x="{f(X(a_))}" y="{y-11}">{role}</text>')
+ch.append(f'<line class="axis" x1="{f(X(2016))}" y1="234" x2="{f(X(NOW))}" y2="234" />')
 for yr in range(2016,2027):
-    ch.append(f'<line class="tk" x1="{f(X(yr))}" y1="226" x2="{f(X(yr))}" y2="231" /><text class="yr" x="{f(X(yr))}" y="246" text-anchor="middle">{yr}</text>')
+    ch.append(f'<line class="tk" x1="{f(X(yr))}" y1="234" x2="{f(X(yr))}" y2="238" />')
+    if yr%2==0: ch.append(f'<text class="yr" x="{f(X(yr))}" y="254" text-anchor="middle">{yr}</text>')
 r['CHART']=''.join(ch)
 for k,v in r.items(): t=t.replace(f'__{k}__',v)
 assert '__' not in t.replace('__agentproxy','') or print([l for l in t.split('\n') if '__' in l][:3])
